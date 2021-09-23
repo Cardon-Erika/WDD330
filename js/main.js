@@ -3,7 +3,7 @@ function showAllWeeks() {
     const links = [
         {
             label: "Week One",
-            url: "/week1/index.html"
+            url: "Week1/index.html"
         }
     ];
 
