@@ -4,6 +4,10 @@ function showAllWeeks() {
         {
             label: "Week One",
             url: "week1/index.html"
+        },
+        {
+            label: "Week Two",
+            url: "week2/index.html"
         }
     ];
 
