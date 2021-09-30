@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justice League</title>
+</head>
+<body>
+    <header>
+        <h1 id='title'>Justice League</h1>
+    </header>
+    <ul id='roster'>
+        <li class="hero">Superman</li>
+        <li class="vigilante hero" id="bats">Batman</li>
+        <li class="hero">Wonder Woman</li>
+    </ul>
+
+    <script>
+        const body = document.body;
+        console.log(typeof body);
+        console.log(body.nodeType);
+        console.log(body.nodeName);
+
+        // const heroes = document.getElementsByClassName('hero');
+        // console.log(heroes.length);
+        // console.log(document.getElementsByClassName('villian').length);
+        // console.log(document.querySelector('#bats'));
+        // console.log(document.querySelectorAll('.hero'));
+
+        // const wonderWoman = document.querySelector('li:last-child');
+        // const ul = document.querySelector('ul#roster');
+        // const batman = ul.querySelector('li#bats');
+
+        const heroes = document.getElementById('roster');
+        console.log(heroes.childNodes);
+        console.log(heroes.children);
+        console.log(heroes.children.length);
+
+        const wonderWoman = document.querySelector('ul#roster li:last-child');
+        console.log(wonderWoman.parentNode);
+        console.log(wonderWoman.nextSibling);
+        console.log(wonderWoman.previousSibling);
+
+        const textNode = wonderWoman.firstChild;
+        console.log(textNode.nodeValue);
+        console.log(wonderWoman.textContent);
+        console.log(wonderWoman.getAttribute('class'));
+        wonderWoman.setAttribute('class', 'villian');
+        console.log(wonderWoman.getAttribute('class'));
+        wonderWoman.setAttribute('id', 'amazon');
+        console.log(wonderWoman.getAttribute('id'));
+        console.log(wonderWoman.className);
+        wonderWoman.className = 'hero';
+        console.log(wonderWoman.className);
+        wonderWoman.classList.add('warrior');
+        console.log(wonderWoman.className);
+        wonderWoman.classList.remove('warrior');
+        console.log(wonderWoman.className);
+
+        const flash = document.createElement('li');
+        flash.textContent = 'Flash';
+        heroes.appendChild(flash);
+
+        const aquaman = document.createElement('li');
+        aquaman.textContent = 'Aquaman';
+        heroes.insertBefore(aquaman, wonderWoman);
+        heroes.appendChild(wonderWoman);
+        heroes.removeChild(aquaman);
+        heroes.appendChild(aquaman);
+
+        const h1 = document.getElementById('title');
+        const oldText = h1.firstChild;
+        const newText = document.createTextNode('Justice League of America');
+        h1.replaceChild(newText,oldText);
+
+        console.log(heroes.innerHTML);
+
+        h1.innerHTML = 'Suicide Squad';
+        heroes.innerHTML = '<li>Harley Quinn</li><li>Deadshot</li><li>Killer Croc</li><li>Enchantress</li><li>Captain Boomerang</li><li>Katana</li><li>Slipknot</li>';
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Week 2 Team Activity</title>
+    <meta charset="utf-8" />
+    <script>
+      function handleSumAllNumbers() {
+        const input = parseInt(document.getElementById('input1').value, 10);
+
+        const answer = sumAllNumbers(input);
+
+        document.getElementById('result').innerHTML = answer;
+      }
+
+      function sumAllNumbers(num) {
+        // num + num-1 ... 1
+        // Ideas: Array with numbers, while loop w/ if-else, for-loop
+        let sum = 0;
+        for (let i = 1; i <= num; i++) {
+          sum += i;
+        }
+        return sum;
+      }
+
+      /*
+      function handleInputs() {
+        const input1 = parseInt(document.getElementById('input1').value, 10);
+        const input2 = parseInt(document.getElementById('input2').value, 10);
+
+        // do something with the inputs
+        return [input1, input2];
+      }
+
+      function handleAdd() {
+        // const [input1, input2] = handleInputs();
+        const inputs = handleInputs();
+        const input1 = inputs[0];
+        const input2 = inputs[1];
+
+        const answer = input1 + input2;
+
+        document.getElementById('result').innerHTML = answer;
+      }
+
+      const handleSubtraction = function () {
+        const [input1, input2] = handleInputs();
+
+        const answer = input1 - input2;
+
+        document.getElementById('result').innerHTML = answer;
+      };
+
+      const handleMultiplication = () => {
+        const [input1, input2] = handleInputs();
+
+        const answer = input1 * input2;
+
+        document.getElementById('result').innerHTML = answer;
+      };
+      */
+
+      function handleInputs(callback) {
+        const input1 = parseInt(document.getElementById('input1').value, 10);
+        const input2 = parseInt(document.getElementById('input2').value, 10);
+
+        // fnToUse: add, sub, mult
+        const answer = callback(input1, input2);
+
+        document.getElementById('result').innerHTML = answer;
+      }
+
+      function add(num1, num2) {
+        return num1 + num2;
+      }
+
+      const sub = function (num1, num2) {
+        return num1 - num2;
+      };
+
+      const mult = (num1, num2) => {
+        return num1 * num2;
+      };
+    </script>
+  </head>
+  <body>
+    <input id="input1" type="text" />
+    <input id="input2" type="text" />
+    <button type="button" onclick="handleSumAllNumbers()">
+      Sum All Numbers
+    </button>
+    <button type="button" onclick="handleInputs(add)">+</button>
+    <button type="button" onclick="handleInputs(sub)">-</button>
+    <button type="button" onclick="handleInputs(mult)">*</button>
+    <div id="result"><!-- dynamic --></div>
+  </body>
+</html>
