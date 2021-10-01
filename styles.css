@@ -109,6 +109,44 @@ header a:hover {
     color: #aaaca1;
 }
 
+/*=========FOOTER==============*/
+footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    min-width: 350px;
+}
+#footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    justify-items: center;
+    margin: 0px 50px;
+}
+
+#footer hr {
+    grid-column: 1/3;
+}
+
+#footer a {
+    text-decoration: none;
+    color: #027b76;
+}
+
+#footer a:hover {
+    color: #aaaca1;
+}
+
+hr.thin_beige_bar {
+    border-top: 2px solid #f6ccb4;
+    max-width: 85%;
+}
+
+hr.med_lt_blue_bar {
+    border-top: 5px solid #30bbb4;
+    max-width: 85%;
+}
+
 /*==========DESKTOP=============*/
 @media (min-width: 975px) {
     main {
