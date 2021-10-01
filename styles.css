@@ -154,6 +154,10 @@ hr.med_lt_blue_bar {
         margin: auto;
     }
 
+    body {
+        font-size: 18px;
+    }
+
     header h1, header h2 {
         max-width: 1000px;
         margin: auto;
