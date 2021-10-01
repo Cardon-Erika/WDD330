@@ -99,6 +99,16 @@ li a:hover {
     color: #f6ccb4;
 }
 
+/*===============LINKS===============*/
+header a {
+    text-decoration: none;
+    color: #dbae8d;
+}
+
+header a:hover {
+    color: #aaaca1;
+}
+
 /*==========DESKTOP=============*/
 @media (min-width: 975px) {
     main {
