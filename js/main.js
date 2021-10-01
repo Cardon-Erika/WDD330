@@ -22,7 +22,7 @@ function showAllWeeks() {
         for (let i = 0; i < numberOfWeeks; i++) {
             let aWeek = links[i]
             // weeksDisplayer.innerHTML += "<div><a href=" + aWeek["url"] + ">" + "<h1>" + aWeek["label"] + "</h1><p>" + aWeek["description"] + "</p>" + "</a></div>"
-            weeksDisplayer.innerHTML += "<li><a href=" + aWeek["url"] + ">" + aWeek["label"] + "</a></li>"
+            weeksDisplayer.innerHTML += `<li class="heavy grow"><a href=` + aWeek["url"] + `>` + aWeek["label"] + `</a></li>`
         }
     }
 
