@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+            height: 200px;
+            width: 200px;
+        }
+        /* td:last-of-type {
+            border-right: none;
+            border-bottom: none;
+        } */
+        td:last-child {
+            border-right: none;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+        td {
+            text-align: center;
+            font-size: 4em;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <td id="topLeft"></td>
+                <td id="topCenter"></td>
+                <td id="topRight"></td>
+            </tr>
+            <tr>
+                <td id="middleLeft"></td>
+                <td id="center"></td>
+                <td id="middleRight"></td>
+            </tr>
+            <tr>
+                <td id="bottomLeft"></td>
+                <td id="bottomCenter"></td>
+                <td id="bottomRight"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button id="reset" type="button">Reset</button>
+
+    <script>
+        let moveNumber = 0;
+
+        document.querySelectorAll("td").forEach( t => {
+            t.addEventListener("touchend", addMove);
+        } );
+
+        document.querySelector("#reset").addEventListener('click', reset);
+
+        function addMove(e) {
+            if (e.target.innerHTML == "") {
+                e.target.innerHTML = moveNumber % 2 == 0 ? "X": "O";
+                checkWin();
+            moveNumber++;
+            }
+        };
+
+        function reset() {
+            document.querySelectorAll("td").forEach( t => {
+            t.innerHTML = "";
+        });
+        moveNumber = 0; }
+
+        function getCell(id) {
+            return document.getElementById(id).innerHTML
+        }
+
+        function winner() {
+            alert(`Player ${moveNumber % 2 == 0 ? "X": "O"} wins!`);
+        }
+
+        function checkWin() {
+            if (getCell("topLeft") == getCell("middleLeft") && getCell("middleLeft")== getCell("bottomLeft") && getCell("bottomLeft") !="") {
+                winner();
+            } else if (getCell("topCenter") == getCell("center") && getCell("center") == getCell("bottomCenter") && getCell("bottomCenter") !="") {
+                winner();
+            } else if (getCell("topRight") == getCell("middleRight") && getCell("middleRight") == getCell("bottomRight") && getCell("bottomRight") !="") {
+                winner();
+            } else if (getCell("topLeft") == getCell("topCenter") && getCell("topCenter") == getCell("topRight") && getCell("topRight") !="") {
+                winner();
+            } else if (getCell("middleLeft") == getCell("center") && getCell("center") == getCell("middleRight") && getCell("middleRight") !="") {
+                winner();
+            } else if (getCell("bottomLeft") == getCell("bottomCenter") && getCell("bottomCenter") == getCell("bottomRight") && getCell("bottomRight") !="") {
+                winner();
+            } else if (getCell("topLeft") == getCell("center") && getCell("center") == getCell("bottomRight") && getCell("bottomRight") !="") {
+                winner();
+            } else if (getCell("topRight") == getCell("center") && getCell("center") == getCell("bottomLeft") && getCell("bottomLeft") !="") {
+                winner();
+            } else {
+                if ([...document.querySelectorAll("td")].every(x => x.innerHTML !== "")) {
+                    alert(`The game ends in a tie.`);
+                }
+            }
+        }
+
+
+    </script>
+</body>
+</html>
