@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Indie+Flower&display=swap');
+
+* {
+    /* font-family: 'Indie Flower', cursive; */
+    font-family: 'Architects Daughter', cursive;
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 350px;
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: teal;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.6em;
+}
+
+p {
+    font-size: 20px;
+}
+
+.task_list {
+    border: solid 1px black;
+    margin: 0px 20px 20px 20px;
+    background-color: white;
+}
+
+.todo_row {
+    display: grid;
+    grid-template-columns: 30px auto 30px;
+    grid-template-rows: auto;
+    gap: 15px;
+    align-items: center;
+    padding: 0px 10px;
+    border-top: solid black 1px;
+}
+
+.todo_row:nth-child(1) {
+    border-top: none;
+}
+
+.todo_row input {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.todo_row input[type=checkbox]:checked {
+    filter: invert(100%) hue-rotate(320deg) brightness(1.7);
+    /* filter: invert(0%) hue-rotate(53deg) brightness(1); */
+}
+
+/* .todo_row p {
+
+} */
+
+.todo_row a {
+    font-size: 1.6em;
+    text-align: center;
+    cursor: pointer;
+}
+
+.task_list_footer {
+    display: grid;
+    grid-template-columns: 40% repeat(3, auto);
+    grid-template-rows: auto;
+    justify-content: space-between;
+    gap: 2px;
+    padding: 0px 10px;
+    border-top: solid black 1px;
+}
+
+.task_list_footer p {
+    font-size: 1em;
+}
+
+.footer {
+    display: grid;
+    grid-template-columns: auto 30px;
+    grid-template-rows: auto;
+    gap: 15px;
+    height: 30px;
+    margin: 0px 20px 20px 20px;
+}
+
+.footer button {
+    font-size: 1.6em;
+    background-color: white;
+}
