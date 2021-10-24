@@ -5,51 +5,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="main.js"></script>
     <link rel="stylesheet" href="styles.css">
     <title>To Do List</title>
 </head>
 
 <body>
     <h1>To Do List</h1>
-    <div class="task_list">
-        <div class="todo_row">
-            <!-- ToDo element should include a checkbox to mark complete, a label for the task text, and a button used to remove the task -->
-            <!-- <label> Wash Dishes
-                <input type="checkbox">
-                <button type="button">X</button>
-            </label> -->
-                <input class="checkbox" type="checkbox">
-                <p>Wash Dishes</p>
-                <a>X</a>
-        </div>
+    <div id="list">
+        <div id="task_list">
 
-        <!-- For testing... -->
-        <div class="todo_row">
-            <!-- ToDo element should include a checkbox to mark complete, a label for the task text, and a button used to remove the task -->
-            <!-- <label> Wash Dishes
-                <input type="checkbox">
-                <button type="button">X</button>
-            </label> -->
-                <input type="checkbox">
+            <!-- For testing -->
+            <!-- <div class="todo_row">
+                <input name="checkbox" class="checkbox" type="checkbox">
                 <p>Wash Dishes</p>
                 <a>X</a>
+            </div> -->
+
+
         </div>
         <div class="task_list_footer">
             <!-- Footer should allow to switch between All tasks, active (not complete) tasks, and completed tasks. It should also include a total label. If filter is All…total should be all active tasks, otherwise it should show the number of tasks found by the filter (active or completed) -->
-            <p id="tasks_left">3 Tasks Left</p> <!--remove text after styled-->
+            <p id="tasks"></p>
+            <!--remove text after styled-->
             <p id="all_tasks">All</p>
-            <p id="uncompleted_tasks">Active</p>
+            <p id="uncompleted_tasks" class="active">Active</p>
             <p id="completed_tasks">Completed</p>
         </div>
     </div>
 
     <footer class="footer">
-        <input class="add_task">
-        <button type="submit">+</button>
+        <input id="add_task">
+        <button id="submit" type="button">+</button>
     </footer>
 
-
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
