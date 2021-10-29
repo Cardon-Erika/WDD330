@@ -24,6 +24,10 @@ function showAllWeeks() {
         {
             label: "ToDo List",
             url: "toDo/index.html"
+        },
+        {
+            label: "Week Seven",
+            url: "week7/index.html"
         }
     ];
 
