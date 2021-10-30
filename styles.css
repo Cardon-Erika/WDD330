@@ -128,6 +128,21 @@ li a:hover {
     color: #f6ccb4;
 }
 
+#week7 ol {
+    list-style-type: decimal;
+}
+
+#week7 li {
+    width: auto;
+    border: none;
+    text-align: left;
+    padding: inherit;
+    background-image: none;
+    box-shadow: none;
+    font-size: 1em;
+}
+
+
 /*===============LINKS===============*/
 header a {
     text-decoration: none;
@@ -140,7 +155,7 @@ header a:hover {
 
 /*=========FOOTER==============*/
 footer {
-    position: absolute;
+    position: relative;
     bottom: 0px;
     width: 100%;
     min-width: 350px;

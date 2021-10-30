@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles.css" <script src="../js/main.js">
+    <link rel="stylesheet" href="../styles.css"> <script src="../js/main.js">
     </script>
-    <title>Week Five Notes</title>
+    <title>Week Seven Notes</title>
 </head>
 
 <body>
@@ -15,9 +15,62 @@
         <a href="/WDD330"><h1>WDD 330</h1>
         <h2>Frontend Development II | Erika Cardon</h2></a>
     </header>
-    <main>
-        <h2 class="gray">Week Five Notes</h2>
-        <p>"Debugger" can be added as an alternative to adding breakpoints in the inspect element bar. You have to go back and remove this though, so it might be better to still just add brea  kpoints.</p>
+    <main id="week7">
+        <h2 class="gray">Week Seven Notes</h2>
+        <h3>Chapter 11 - Further Functions</h3>
+        <h4>Immediately Invoked Function Expressions (IIFE)</h4>
+        <p>An IIFE is an anonymous function that is invoked as soon as it's defind. They are a useful way of performing a task while keeping any variables wrapped up within the scope of the function. This means the global namespace is not polluted with lots of variable names.</p>
+        <img src="images/IIFE_example.JPG" alt="IIFE example" width=100% height=auto>
+
+        <p>IIFE's can be used to set up initialization code. Because the code is run only once, there's not need to create any reusable, named functions, and all the variables will also be temporary.</p>
+        <img src="images/initialization_IIFE.JPG" alt="initialization EEFI" width=100% height=auto>
+
+        <p>Much of this can be done in ES6 now however, by simply placing the code inside a block.</p>
+        <img src="images/initialization_with_ES6.JPG" alt="initialization with ES6" width=100% height=auto>
+
+        <h4>Recursive Functions</h4>
+        <p>A recursive function is one that invokes itslef until a certain condition is met. It's a useful tool to use when iterative processes are involved. A commmon example is a function that calculates the factoral of a number.</p>
+        <img src="images/recursive_funtion.JPG" alt="recursive function" width=100% height=auto>
+
+        <h4>Promises</h4>
+        <p>A promise represents the future result of an asynchronous operation. Promises don't do anything that can't already be achieved using callbacks, but they help simplify the process, and avoid the convoluted code that can result from using multiple callbacks.</p>
+        <p>When a promise is created, it is said to be pending. It reminas in this state while the operation is taking place. At this stage it is <italics>unsettled</italics>. Once the operation has completed, the promise is said to have been <italics>settled</italics>. A settled promise has two possible outcomes: resolved or rejected.</p>
+        <p>This dice roll is an example of a function that uses promises.</p>
+        <img src="images/dice_roll.JPG" alt="dice roll function" width=100% height=auto>
+
+        <h4>Chaining Multiple Promises</h4>
+        <p>Promises come into their own when multiple asynchronous tasks are required to be carried out one after the other. If each function that performs an async operation returns a promise, we can chair the <strong>then()</strong> methods together to form a sequential piece of code that's easy to read. Each promise will only begin once the previous promise has been settled.</p>
+        <img src="images/chained_promise.JPG" alt="dice roll function" width=100% height=auto>
+        
+        <h4>Pure Functions</h4>
+        <p>A key aspect of functional programming is its use of pure functions. A pure function is a function that adheres to the following rules:
+            <ol>
+                <li>The return value of a pure function should only depend on the values provided as arguments. It doesn't rely on values from somewhere else in the program.</li>
+                <li>There are no side-effects. A pure function doesn't change any values or data elsewehere in the program. It only makes non-destructive data transformations and returns new values, rather than altering any of the underlying data.</li>
+                <li>Referential transparency. Given the same arguments, a pure function will always return the same result.</li>
+            </ol>
+        </p>
+        <p>By only performing a single task, pure functions are more flexible, as they can be used as the building blocks for many different situations, rather than be tightly coupled with on e particular operation. The following are pure functions that work together to find the hypotenuse of a triangle.</p>
+        <img src="images/pure_function_square.JPG" alt="pure function square" width=100% height=auto>
+        <img src="images/pure_function_hypotenuse.JPG" alt="pure function hypotenuse" width=100% height=auto>
+
+        <h3>Chapter 13 - AJAX</h3>
+        <h4>AJAX</h4>
+        <p>AJAX is a technique that allows web pages to communicate asynchronously with a server, and it dynamically updates web pages without reloading. This enables data to be sent and received in the background, as well as portions of a page to be updated in response to user events, while the rest of the program continues to run.</p>
+
+        <h4>Basic Usage</h4>
+        <p>The Fetch API provides a global fetch() method that only has one mandatory argument, which is the URL of the resource you wish to fetch.</p>
+        <img src="images/AJAX_fetch.JPG" alt="AJAX fetch" width=100% height=auto>
+
+        <h4>Reponse Interface</h4>
+        <p>The Fetch API introduced the Response interfave that deals with the object that's returned when the promise is fullfilled. This means that we can use an <italics>if</italics> block to check if the request was successful, and throw an error otherwise.</p>
+        <img src="images/AJAX_response.JPG" alt="AJAX response" width=100% height=auto>
+
+        <h4>JSON Response</h4>
+        <p>JSON is probably the most common format for AJAX responses. The <strong>json()</strong> method is used to deal with these by transforming a stream of JSON data into a promise that resolves to a JavaScript object.</p>
+        <img src="images/AJAX_JSON_response.JPG" alt="AJAX JSON response" width=100% height=auto>
+        <a href="ajax.html">AJAX in Action</a>
+
     </main>
 
     <footer >
