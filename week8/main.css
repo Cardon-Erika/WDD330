@@ -1,0 +1,207 @@
+* {
+    box-sizing: border-box;
+}
+
+.race_car {
+    width: 50px;
+    height: 65px;
+}
+
+.car1 {
+    --parent-color: orange;
+    color: var(--parent-color)
+}
+
+.car1 svg {
+    fill: currentColor;
+}
+
+.car2 {
+    --parent-color: green;
+    color: var(--parent-color)
+}
+
+.car2 svg {
+    fill: currentColor;
+}
+
+.car3 {
+    --parent-color: blue;
+    color: var(--parent-color)
+}
+
+.car3 svg {
+    fill: currentColor;
+}
+
+.car4 {
+    --parent-color: purple;
+    /* color: purple */
+    color: var(--parent-color)
+}
+
+.car4 svg {
+    fill: currentColor;
+}
+
+.car5 {
+    --parent-color: pink !important;
+    color: var(--parent-color);
+}
+
+.car5 svg {
+    fill: currentColor;
+}
+
+.race {
+    width: 100%;
+}
+
+/* .race #car1 {
+    animation: drive 5s ease forwards;
+}
+
+.race #car2 {
+    animation: drive 5s linear forwards;
+}
+
+.race #car3 {
+    animation: drive 5s ease-in forwards;
+}
+
+.race #car4 {
+    animation: drive 5s ease-out forwards;
+}
+
+.race #car5 {
+    animation: drive 5s ease-in-out forwards;
+}
+
+@keyframes drive {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+} */
+
+.race .car1 {
+    transition: all 5s ease;
+}
+
+.race .car2 {
+    transition: all 5s linear;
+}
+
+.race .car3 {
+    transition: all  5s ease-in;
+}
+
+.race .car4 {
+    transition: all 5s ease-out;
+}
+
+.race .car5 {
+    transition: all 5s ease-in-out;
+}
+
+.race_on .car1, .race_on .car2, .race_on .car3, .race_on .car4, .race_on .car5 {
+    transform: translateX(100%);
+}
+
+#flag1, #flag2 {
+    width: 75px;
+    height: 75px;
+    background-color: #eee600;
+}
+
+#flag1:after {
+    content: '';
+    width: 10px;
+    height: 150px;
+    background: black;
+    margin-left: 75px;
+    position: absolute;
+}
+
+#flag2:after {
+    content: '';
+    width: 10px;
+    height: 150px;
+    background: black;
+    position: absolute;
+}
+
+.flags {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding-top: 30px;
+}
+
+#flag1 {
+    transform: rotate(-30deg);
+}
+
+#flag2 {
+    transform: rotate(30deg);
+}
+
+#start_race {
+    cursor: pointer;
+    padding-top: 30px;
+    /* text-align: center; */
+    color: red;
+    transition: all 200ms;
+}
+
+#start_race:hover {
+    transform: scale(1.3);
+    color: green;
+}
+
+h2 {
+    text-align: center;
+}
+
+.question {
+    display: flex;
+    justify-content: space-around;
+}
+
+#returnAnswers button {
+    margin-top: 30px;
+    padding: 5px 10px;
+    font-size: 1.2em;
+}
+
+#returnAnswers {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+#returnAnswers.noDisplay #displayAnswers {
+    display: none;
+}
+
+#returnAnswers.display #displayAnswers {
+    padding-top: 30px;
+    display: flex;
+    gap: 40px;
+}
+
+.answers {
+    display: flex;
+    gap: 20px;
+}
+
+.question h4 {
+    padding: 10px 15px;
+}
+
+.active {
+    border: 1px var(--parent-color) solid;
+    border-radius: 50%;
+}

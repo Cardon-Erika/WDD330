@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="../js/main.js"></script>
+    <title>Week Eight Notes</title>
+</head>
+
+<body>
+    <header class="med_blue_backgrd tan">
+        <a href="/WDD330">
+            <h1>WDD 330</h1>
+            <h2>Frontend Development II | Erika Cardon</h2>
+        </a>
+    </header>
+    <main>
+        <h1>Transform, Transition, and Animation</h1>
+        <p>Having some fun playing around with elements of the transform, transition, and animation properties. This quick race illustrates the differences between the various transition timing functions. Get ready to start your engines and see if you can tell which car uses which function.</p>
+        <p>Check your answers at the bottom of the page to see if you were correct. (I did not create the program to check the answers, since that wasn't the point of this program.)</p>
+
+        <div class="flags">
+        <div id="flag1"></div>
+        <div id="flag2"></div>
+        </div>
+        <div>
+            <h2 id="start_race">Start Your Engines</h2>
+        </div>
+        <div class="race">
+            <div class="car1">
+                <svg class="race_car">
+                    <use xlink:href="images/car-side-solid.svg#car" />
+                </svg>
+            </div>
+
+            <div class="car2">
+                <svg class="race_car">
+                    <use xlink:href="images/car-side-solid.svg#car" />
+                </svg>
+            </div>
+
+            <div class="car3">
+                <svg class="race_car">
+                    <use xlink:href="images/car-side-solid.svg#car" />
+                </svg>
+            </div>
+
+            <div class="car4">
+                <svg class="race_car">
+                    <use xlink:href="images/car-side-solid.svg#car" />
+                </svg>
+            </div>
+
+            <div class="car5">
+                <svg class="race_car">
+                    <use xlink:href="images/car-side-solid.svg#car" />
+                </svg>
+            </div>
+
+            <!-- <div id="car2" class="race_car"><svg aria-hidden="true" focusable="false" data-prefix="fas"
+                    data-icon="car-side" class="svg-inline--fa fa-car-side fa-w-20" role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                    <path fill="currentColor"
+                        d="M544 192h-16L419.22 56.02A64.025 64.025 0 0 0 369.24 32H155.33c-26.17 0-49.7 15.93-59.42 40.23L48 194.26C20.44 201.4 0 226.21 0 256v112c0 8.84 7.16 16 16 16h48c0 53.02 42.98 96 96 96s96-42.98 96-96h128c0 53.02 42.98 96 96 96s96-42.98 96-96h48c8.84 0 16-7.16 16-16v-80c0-53.02-42.98-96-96-96zM160 432c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48zm72-240H116.93l38.4-96H232v96zm48 0V96h89.24l76.8 96H280zm200 240c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48z">
+                    </path>
+                </svg></div>
+
+            <div id="car3" class="race_car"><svg aria-hidden="true" focusable="false" data-prefix="fas"
+                    data-icon="car-side" class="svg-inline--fa fa-car-side fa-w-20" role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                    <path fill="currentColor"
+                        d="M544 192h-16L419.22 56.02A64.025 64.025 0 0 0 369.24 32H155.33c-26.17 0-49.7 15.93-59.42 40.23L48 194.26C20.44 201.4 0 226.21 0 256v112c0 8.84 7.16 16 16 16h48c0 53.02 42.98 96 96 96s96-42.98 96-96h128c0 53.02 42.98 96 96 96s96-42.98 96-96h48c8.84 0 16-7.16 16-16v-80c0-53.02-42.98-96-96-96zM160 432c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48zm72-240H116.93l38.4-96H232v96zm48 0V96h89.24l76.8 96H280zm200 240c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48z">
+                    </path>
+                </svg></div>
+
+            <div id="car4" class="race_car"><svg aria-hidden="true" focusable="false" data-prefix="fas"
+                    data-icon="car-side" class="svg-inline--fa fa-car-side fa-w-20" role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                    <path fill="currentColor"
+                        d="M544 192h-16L419.22 56.02A64.025 64.025 0 0 0 369.24 32H155.33c-26.17 0-49.7 15.93-59.42 40.23L48 194.26C20.44 201.4 0 226.21 0 256v112c0 8.84 7.16 16 16 16h48c0 53.02 42.98 96 96 96s96-42.98 96-96h128c0 53.02 42.98 96 96 96s96-42.98 96-96h48c8.84 0 16-7.16 16-16v-80c0-53.02-42.98-96-96-96zM160 432c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48zm72-240H116.93l38.4-96H232v96zm48 0V96h89.24l76.8 96H280zm200 240c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48z">
+                    </path>
+                </svg></div> -->
+        </div>
+
+        <h2>Which Function Did I Use?</h2>
+        <div class="car1 question">
+            <svg class="race_car">
+                <use xlink:href="images/car-side-solid.svg#car" />
+            </svg>
+            <h4 id="answer1" onClick="addActive(this.id)">Ease-in</h4>
+            <h4 id="answer2" onClick="addActive(this.id)">Ease-in-out</h4>
+            <h4 id="answer3" onClick="addActive(this.id)">Ease</h4>
+            <h4 id="answer4" onClick="addActive(this.id)">Ease-out</h4>
+            <h4 id="answer5" onClick="addActive(this.id)">Linear</h4>
+        </div>
+
+        <div class="car2 question">
+            <svg class="race_car">
+                <use xlink:href="images/car-side-solid.svg#car" />
+            </svg>
+            <h4 id="answer6" onClick="addActive(this.id)">Ease-in</h4>
+            <h4 id="answer7" onClick="addActive(this.id)">Ease-in-out</h4>
+            <h4 id="answer8" onClick="addActive(this.id)">Ease</h4>
+            <h4 id="answer9" onClick="addActive(this.id)">Ease-out</h4>
+            <h4 id="answer10" onClick="addActive(this.id)">Linear</h4>
+        </div>
+
+        <div class="car3 question">
+            <svg class="race_car">
+                <use xlink:href="images/car-side-solid.svg#car" />
+            </svg>
+            <h4 id="answer11" onClick="addActive(this.id)">Ease-in</h4>
+            <h4 id="answer12" onClick="addActive(this.id)">Ease-in-out</h4>
+            <h4 id="answer13" onClick="addActive(this.id)">Ease</h4>
+            <h4 id="answer14" onClick="addActive(this.id)">Ease-out</h4>
+            <h4 id="answer15" onClick="addActive(this.id)">Linear</h4>
+        </div>
+
+        <div class="car4 question">
+            <svg class="race_car">
+                <use xlink:href="images/car-side-solid.svg#car" />
+            </svg>
+            <h4 id="answer16" onClick="addActive(this.id)">Ease-in</h4>
+            <h4 id="answer17" onClick="addActive(this.id)">Ease-in-out</h4>
+            <h4 id="answer18" onClick="addActive(this.id)">Ease</h4>
+            <h4 id="answer19" onClick="addActive(this.id)">Ease-out</h4>
+            <h4 id="answer20" onClick="addActive(this.id)">Linear</h4>
+        </div>
+
+        <div class="car5 question">
+            <svg class="race_car">
+                <use xlink:href="images/car-side-solid.svg#car" />
+            </svg>
+            <h4 id="answer21" onClick="addActive(this.id)">Ease-in</h4>
+            <h4 id="answer22" onClick="addActive(this.id)">Ease-in-out</h4>
+            <h4 id="answer23" onClick="addActive(this.id)">Ease</h4>
+            <h4 id="answer24" onClick="addActive(this.id)">Ease-out</h4>
+            <h4 id="answer25" onClick="addActive(this.id)">Linear</h4>
+        </div>
+
+        <div id="returnAnswers" class="noDisplay">
+            <button >Show The Correct Answers</button>
+            <div id="displayAnswers">
+                <div class="car1 answers">
+                    <svg class="race_car">
+                        <use xlink:href="images/car-side-solid.svg#car" />
+                    </svg>
+                    <h4>Ease</h4>
+                </div>
+        
+                <div class="car2 answers">
+                    <svg class="race_car">
+                        <use xlink:href="images/car-side-solid.svg#car" />
+                    </svg>
+                    <h4>Linear</h4>
+                </div>
+        
+                <div class="car3 answers">
+                    <svg class="race_car">
+                        <use xlink:href="images/car-side-solid.svg#car" />
+                    </svg>
+                    <h4>Ease-in</h4>
+                </div>
+        
+                <div class="car4 answers">
+                    <svg class="race_car">
+                        <use xlink:href="images/car-side-solid.svg#car" />
+                    </svg>
+                    <h4>Ease-out</h4>
+                </div>
+        
+                <div class="car5 answers">
+                    <svg class="race_car">
+                        <use xlink:href="images/car-side-solid.svg#car" />
+                    </svg>
+                    <h4>Ease-in-out</h4>
+                </div>   
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <hr class="thin_beige_bar">
+        <hr class="med_lt_blue_bar">
+        <div id="footer" class="med_blue">
+            <p>&copy;2021 Erika Cardon</p>
+            <p><a href="../style_guide.html">Style Guide</a></p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
