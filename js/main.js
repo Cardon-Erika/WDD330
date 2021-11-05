@@ -28,6 +28,10 @@ function showAllWeeks() {
         {
             label: "Week Seven",
             url: "week7/index.html"
+        },
+        {
+            label: "Week Eight",
+            url: "week8/index.html"
         }
     ];
 
