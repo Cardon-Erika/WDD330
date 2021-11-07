@@ -47,9 +47,10 @@ function manipulateImage() {
 const dragIceCream = document.querySelectorAll("#drag img");
 dragIceCream.forEach(el => {
     el.addEventListener('dragstart', function (event) {
-        console.log('dragstart running');
         event.dataTransfer.setData("text", event.target.id);
-        console.log(event.target.id);
+    })
+    el.addEventListener('touchstart', function (event) {
+        event.dataTransfer.setData("text", event.target.id);
     })
 })
 
@@ -74,11 +75,25 @@ matchIceCream.forEach(el => {
         } else if (originalId == 'iceCream6' && matchId == 'iceCream3') {
             event.target.appendChild(document.getElementById(originalId));
         }
-    })
-})
-
-console.log("dragIceCream: ", dragIceCream);
-console.log("matchIceCream: ", matchIceCream);
+    });
+    el.addEventListener('touchend', function (event) {
+        var originalId = event.dataTransfer.getData("text");
+        var matchId = el.id;
+        console.log(originalId);
+        console.log(matchId);
+        if (originalId == 'iceCream10' && matchId == 'iceCream1') {
+            event.target.appendChild(document.getElementById(originalId));
+        } else if (originalId == 'iceCream9' && matchId == 'iceCream2') {
+            event.target.appendChild(document.getElementById(originalId));
+        } else if (originalId == 'iceCream8' && matchId == 'iceCream5') {
+            event.target.appendChild(document.getElementById(originalId));
+        } else if (originalId == 'iceCream7' && matchId == 'iceCream4') {
+            event.target.appendChild(document.getElementById(originalId));
+        } else if (originalId == 'iceCream6' && matchId == 'iceCream3') {
+            event.target.appendChild(document.getElementById(originalId));
+        }
+    });
+});
 
 // var dragIceCream = document.querySelectorAll("#drag img");
 // var iceCream = null;
