@@ -19,13 +19,16 @@
         </a>
     </header>
     <main>
-        <h1>Transform, Transition, and Animation</h1>
-        <p>Having some fun playing around with elements of the transform, transition, and animation properties. This quick race illustrates the differences between the various transition timing functions. Get ready to start your engines and see if you can tell which car uses which function.</p>
-        <p>Check your answers at the bottom of the page to see if you were correct. (I did not create the program to check the answers, since that wasn't the point of this program.)</p>
+        <h1>Chapter 8 - Transform, Transition, and Animation</h1>
+        <p>Having some fun playing around with elements of the transform, transition, and animation properties. This
+            quick race illustrates the differences between the various transition timing functions. Get ready to start
+            your engines and see if you can tell which car uses which function.</p>
+        <p>Check your answers at the bottom of the page to see if you were correct. (I did not create the program to
+            check the answers or worry about responsiveness, since that wasn't the point of this program.)</p>
 
         <div class="flags">
-        <div id="flag1"></div>
-        <div id="flag2"></div>
+            <div id="flag1"></div>
+            <div id="flag2"></div>
         </div>
         <div>
             <h2 id="start_race">Start Your Engines</h2>
@@ -60,30 +63,6 @@
                     <use xlink:href="images/car-side-solid.svg#car" />
                 </svg>
             </div>
-
-            <!-- <div id="car2" class="race_car"><svg aria-hidden="true" focusable="false" data-prefix="fas"
-                    data-icon="car-side" class="svg-inline--fa fa-car-side fa-w-20" role="img"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-                    <path fill="currentColor"
-                        d="M544 192h-16L419.22 56.02A64.025 64.025 0 0 0 369.24 32H155.33c-26.17 0-49.7 15.93-59.42 40.23L48 194.26C20.44 201.4 0 226.21 0 256v112c0 8.84 7.16 16 16 16h48c0 53.02 42.98 96 96 96s96-42.98 96-96h128c0 53.02 42.98 96 96 96s96-42.98 96-96h48c8.84 0 16-7.16 16-16v-80c0-53.02-42.98-96-96-96zM160 432c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48zm72-240H116.93l38.4-96H232v96zm48 0V96h89.24l76.8 96H280zm200 240c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48z">
-                    </path>
-                </svg></div>
-
-            <div id="car3" class="race_car"><svg aria-hidden="true" focusable="false" data-prefix="fas"
-                    data-icon="car-side" class="svg-inline--fa fa-car-side fa-w-20" role="img"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-                    <path fill="currentColor"
-                        d="M544 192h-16L419.22 56.02A64.025 64.025 0 0 0 369.24 32H155.33c-26.17 0-49.7 15.93-59.42 40.23L48 194.26C20.44 201.4 0 226.21 0 256v112c0 8.84 7.16 16 16 16h48c0 53.02 42.98 96 96 96s96-42.98 96-96h128c0 53.02 42.98 96 96 96s96-42.98 96-96h48c8.84 0 16-7.16 16-16v-80c0-53.02-42.98-96-96-96zM160 432c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48zm72-240H116.93l38.4-96H232v96zm48 0V96h89.24l76.8 96H280zm200 240c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48z">
-                    </path>
-                </svg></div>
-
-            <div id="car4" class="race_car"><svg aria-hidden="true" focusable="false" data-prefix="fas"
-                    data-icon="car-side" class="svg-inline--fa fa-car-side fa-w-20" role="img"
-                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-                    <path fill="currentColor"
-                        d="M544 192h-16L419.22 56.02A64.025 64.025 0 0 0 369.24 32H155.33c-26.17 0-49.7 15.93-59.42 40.23L48 194.26C20.44 201.4 0 226.21 0 256v112c0 8.84 7.16 16 16 16h48c0 53.02 42.98 96 96 96s96-42.98 96-96h128c0 53.02 42.98 96 96 96s96-42.98 96-96h48c8.84 0 16-7.16 16-16v-80c0-53.02-42.98-96-96-96zM160 432c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48zm72-240H116.93l38.4-96H232v96zm48 0V96h89.24l76.8 96H280zm200 240c-26.47 0-48-21.53-48-48s21.53-48 48-48 48 21.53 48 48-21.53 48-48 48z">
-                    </path>
-                </svg></div> -->
         </div>
 
         <h2>Which Function Did I Use?</h2>
@@ -143,7 +122,7 @@
         </div>
 
         <div id="returnAnswers" class="noDisplay">
-            <button >Show The Correct Answers</button>
+            <button>Show The Correct Answers</button>
             <div id="displayAnswers">
                 <div class="car1 answers">
                     <svg class="race_car">
@@ -151,34 +130,90 @@
                     </svg>
                     <h4>Ease</h4>
                 </div>
-        
+
                 <div class="car2 answers">
                     <svg class="race_car">
                         <use xlink:href="images/car-side-solid.svg#car" />
                     </svg>
                     <h4>Linear</h4>
                 </div>
-        
+
                 <div class="car3 answers">
                     <svg class="race_car">
                         <use xlink:href="images/car-side-solid.svg#car" />
                     </svg>
                     <h4>Ease-in</h4>
                 </div>
-        
+
                 <div class="car4 answers">
                     <svg class="race_car">
                         <use xlink:href="images/car-side-solid.svg#car" />
                     </svg>
                     <h4>Ease-out</h4>
                 </div>
-        
+
                 <div class="car5 answers">
                     <svg class="race_car">
                         <use xlink:href="images/car-side-solid.svg#car" />
                     </svg>
                     <h4>Ease-in-out</h4>
-                </div>   
+                </div>
+            </div>
+        </div>
+
+        <h1>Chapter 12 - Canvas, SVG, & Drag and Drop</h1>
+        <h3>Canvas vs. SVG</h3>
+        <p>Canvas allows for pixel manipulation. However, cnavas operates in "immediate mode", meaning if you can't add
+            to what is already in the canvas once you finish drawing a shape. You must redraw it from scratch. Canvas
+            also isn't accessable from the DOM. That makes canvas much faster than SVG though. Canvas is generally the
+            better choice if you're looking to design a game requireing lots of animations.</p>
+        <p>By contrast, SVG is accessable from the DOM, because the structure of the image is preserved in the XML
+            document that describes it. SVG also has a more complete set of tools to help you work with it. However,
+            since SVG is a file format, rahter than a set of methods that allows you to dynamically draw on a surface,
+            you can't manipulate SVG images the same way you can manipulate pixels on canvas. For example, with canvas
+            you can make a colored image appear black and white, but that would not be possible with SVG.</p>
+        <p>In summary, if you need to paint pixels to the screen and have no concerns about the ability to retrieve and
+            modify your shapes, canvas is probably the better choice. If, on the other hand, you need to be able to
+            access and change specific aspects of your graphics, SVG might be more appropriate.</p>
+
+        <div>
+            <h3>Canvas</h3>
+            <div id="canvas">
+                <div>
+                    <img src="images/wild_thing.png" id="myImage">
+                    <p>Original Image</p>
+                </div>
+                <div>
+                    <canvas width="300" height="300" id="canvasDemo" class="myCanvas">
+                        Sorry! Your browser doesn't support canvas.
+                    </canvas>
+                    <p>Black and White with canvas</p>
+                </div>
+            </div>
+
+            <h3>SVG</h3>
+            <div id="svg">
+                <p>I used SVGs with the race cars.</p>
+            </div>
+
+            <h3>Drag and Drop</h3>
+            <div id="drag_drop">
+                <div id="stationary">
+                    <img src="images/sprinkles.png" id="iceCream1">
+                    <img src="images/pink.png" id="iceCream2">
+                    <img src="images/mint_choc_chip.png" id="iceCream3">
+                    <img src="images/choc_vanilla.png" id="iceCream4">
+                    <img src="images/green_white_stripe.png" id="iceCream5">
+                </div>
+
+                <p>Instructions: Drag each ice cream to its match above.</p>
+                <div id="drag">
+                    <img src="images/mint_choc_chip.png" id="iceCream6" draggable="true">
+                    <img src="images/choc_vanilla.png" id="iceCream7" draggable="true">
+                    <img src="images/green_white_stripe.png" id="iceCream8" draggable="true"> <img src="images/pink.png" id="iceCream9" draggable="true">
+                    <img src="images/sprinkles.png" id="iceCream10" draggable="true">
+                </div>
+
             </div>
         </div>
     </main>
