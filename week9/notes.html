@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="../js/main.js"></script>
+    <title>Week Nine Notes</title>
+</head>
+
+<body>
+    <header class="med_blue_backgrd tan">
+        <a href="/WDD330">
+            <h1>WDD 330</h1>
+            <h2>Frontend Development II | Erika Cardon</h2>
+        </a>
+    </header>
+    <main>
+        <h2 class="gray">Week Nine Notes</h2>
+        <h3>The Window Object</h3>
+
+        <div id="screen-information">
+            <button id="retrieve_screen_info">Find Screen Information</button>
+        </div>
+
+        <div id="animated_squares">
+
+            <div>
+                <h4>Square Animated with setInterval</h4>
+                <div id="square1"></div>
+            </div>
+
+            <div>
+                <h4>Square Animated with rotate</h4>
+                <div id="square2"></div>
+            </div>
+        </div>
+
+        <h3>HTML5 APIs</h3>
+
+        <button id="rainbow">Change Color</button>
+
+        <br>
+        <form>
+            <label for="number">Enter a Number to Factorize:</label>
+            <input id="number" type="number" name="number" min=1 value="20">
+            <button type="submit">Submit</button>
+        </form>
+        <div id="factor_output"></div>
+
+        <br>
+        <form>
+            <label for="message">Enter a Message:</label>
+            <input type="text" name="message">
+            <button type="submit">Submit</button>
+        </form>
+        <div id="message_output"></div>
+
+        <h4>Questions</h4>
+        <p>The factorize runs, creates a result, and sprints it out, but then only displays it for a split second before it dissapears. I tried it two different ways even. Why??</p>
+        <p>The WebSocket code isn't connecting. It seems to fire on its own though. If the page sits long enough it will through up an undefinded error and say disconnected. Why?</p>
+    </main>
+
+    <footer>
+        <hr class="thin_beige_bar">
+        <hr class="med_lt_blue_bar">
+        <div id="footer" class="med_blue">
+            <p>&copy;2021 Erika Cardon</p>
+            <p><a href="../style_guide.html">Style Guide</a></p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
