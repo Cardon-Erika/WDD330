@@ -53,8 +53,9 @@ main {
     outline: none;
 }
 
-#country {
+#countries {
     padding: 5px;
+    background-color: white;
 }
 
 #createListByCountry {
@@ -108,13 +109,40 @@ p {
     border: 10px solid white;
 } */
 
-.leagues {
+.leagues, #displayTeams {
     display: flex;
     flex-wrap: wrap;
     gap: 40px;
     align-items: flex-end;
     justify-content: center;
 }
+
+.leagues div, #displayTeams div {
+    transition: .2s;
+}
+
+.leagues div:hover, #displayTeams div:hover {
+    transform: scale(1.2);
+}
+
+.leagues a, #displayTeams a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Add some scale animation maybe */
+.leagues a:hover, #displayTeams a:hover {
+    color: rgba(14,124,49,1);
+}
+
+.leagues img, #displayTeams img {
+    margin: auto;
+    display: block;
+}
+
+.leagues h4, #displayTeams h4 {
+    margin-top: 15px;
+} 
 
 
 .center_text {

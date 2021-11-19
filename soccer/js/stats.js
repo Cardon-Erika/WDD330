@@ -18,50 +18,51 @@ const baseURL = "https://api-football-v1.p.rapidapi.com/v3/"
 //         console.error(err);
 //     });
 // };
+https: //api-football-v1.p.rapidapi.com/v3/standings?season2021&league=515
 
-function createListByCountry() {
-    const countryDropdown = document.getElementById('countries');
-    // countryDropdown.length = 0;
+    function createListByCountry() {
+        const countryDropdown = document.getElementById('countries');
+        // countryDropdown.length = 0;
 
-    // let defaultOption = document.createElement('option');
-    // defaultOption.text = 'Choose A Country';
+        // let defaultOption = document.createElement('option');
+        // defaultOption.text = 'Choose A Country';
 
-    // countryDropdown.add(defaultOption);
-    countryDropdown.selectedIndex = 0;
+        // countryDropdown.add(defaultOption);
+        countryDropdown.selectedIndex = 0;
 
-    const url = baseURL + "countries";
-    fetch(url, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
-            }
-        })
-        .then(
-            async function (response) {
-                if (response.status !== 200) {
-                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
-                    return;
+        const url = baseURL + "countries";
+        fetch(url, {
+                "method": "GET",
+                "headers": {
+                    "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                    "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
                 }
-
-                // Examine the text in the response
-                response.json().then(function (data) {
-                    const countries = data.response;
-
-                    for (let i = 0; i < countries.length; i++) {
-                        let option = document.createElement('option');
-                        option.text = countries[i].name;
-                        option.value = countries[i].name;
-                        option.id = countries[i].code;
-                        countryDropdown.add(option);
+            })
+            .then(
+                async function (response) {
+                    if (response.status !== 200) {
+                        console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                        return;
                     }
-                });
-            }
-        )
-        .catch(err => {
-            console.error('Fetch Error - ', err);
-        });
-}
+
+                    // Examine the text in the response
+                    response.json().then(function (data) {
+                        const countries = data.response;
+
+                        for (let i = 0; i < countries.length; i++) {
+                            let option = document.createElement('option');
+                            option.text = countries[i].name;
+                            option.value = countries[i].name;
+                            option.id = countries[i].code;
+                            countryDropdown.add(option);
+                        }
+                    });
+                }
+            )
+            .catch(err => {
+                console.error('Fetch Error - ', err);
+            });
+    }
 
 function showLeaguesByCountry() {
     const selectedCountry = document.getElementById('countries').value;
@@ -111,6 +112,13 @@ function showLeaguesByCountry() {
                         if (selectedCountry == leagues[i].country.name) {
                             let div = document.createElement('div');
 
+                            let a = document.createElement('a');
+                            a.id = leagues[i].league.id;
+                            // **********COME BACK AND MAKE DATE DYNAMIC*************
+                            a.href = `${baseURL}standings?season=${2021}&league=${a.id}`
+                            // a.onclick = showTeamsInLeague();
+                            a.setAttribute('onclick', 'showTeamsInLeague(event, id, href)')
+
                             let logo = document.createElement('img');
                             logo.setAttribute('width', '200px');
                             // *****Set a default image if none availble******
@@ -122,8 +130,12 @@ function showLeaguesByCountry() {
                             // leagueName.style.fontWeight = "bold";
                             leagueName.textContent = leagues[i].league.name;
 
-                            div.appendChild(logo);
-                            div.appendChild(leagueName);
+
+                            a.appendChild(logo);
+                            a.appendChild(leagueName);
+                            // div.appendChild(logo);
+                            // div.appendChild(leagueName);
+                            div.appendChild(a);
 
                             //testing if statements
                             if (leagues[i].league.type == "Cup") {
@@ -133,12 +145,12 @@ function showLeaguesByCountry() {
                                 displayLeaguesOnly.appendChild(div)
                             }
 
-                            if(displayLeaguesOnly.innerHTML) {
+                            if (displayLeaguesOnly.innerHTML) {
                                 displayLeagues.appendChild(leagueTitle);
                             }
                             displayLeagues.appendChild(displayLeaguesOnly);
-                            
-                            if(displayCups.innerHTML) {
+
+                            if (displayCups.innerHTML) {
                                 displayLeagues.appendChild(cupTitle);
                             }
                             displayLeagues.appendChild(displayCups);
@@ -152,6 +164,60 @@ function showLeaguesByCountry() {
         });
 }
 
+function showTeamsInLeague(event, id, href) {
+    event.preventDefault();
+
+    const url = href;
+    fetch(url, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+            }
+        })
+        .then(
+            async function (response) {
+                if (response.status !== 200) {
+                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+
+                // Examine the text in the response
+                response.json().then(function (data) {
+                    const displayLeagues = document.getElementById('showLeagues');
+                    displayLeagues.innerHTML = '';
+
+                    const displayTeams = document.createElement('div');
+                    displayTeams.id = "displayTeams";
+
+                    const teams = data.response[0].league.standings[0];
+
+                    for (let i = 0; i < teams.length; i++) {
+                        let div = document.createElement('div');
+
+                        let logo = document.createElement('img');
+                        logo.setAttribute('width', '200px');
+                        logo.src = teams[i].team.logo;
+
+                        let teamName = document.createElement('h4');
+                        teamName.setAttribute('class', 'center_text');
+                        teamName.textContent = teams[i].team.name;
+
+                        div.appendChild(logo);
+                        div.appendChild(teamName);
+
+                        displayTeams.appendChild(div);
+                        displayLeagues.appendChild(displayTeams);
+                    }
+                });
+            }
+        )
+        .catch(err => {
+            console.error('Fetch Error - ', err);
+        });
+}
+
 
 window.addEventListener('load', createListByCountry);
+
 document.getElementById('createListByCountry').addEventListener('click', showLeaguesByCountry);
