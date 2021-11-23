@@ -1,4 +1,4 @@
-import QuakesController from './quakesController.js';
+import QuakesController from './QuakesController.js';
 import {getLocation} from './utilities.js';
 
 async function init() {
