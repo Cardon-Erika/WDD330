@@ -109,7 +109,7 @@ p {
     border: 10px solid white;
 } */
 
-.leagues, #displayTeams {
+.leagues, #displayTeams, .team {
     display: flex;
     flex-wrap: wrap;
     gap: 25px;
@@ -118,35 +118,55 @@ p {
     align-items: flex-end;
 }
 
-.leagues div, #displayTeams div {
+.team {
+    gap: 65px;
+}
+
+.leagues div, #displayTeams div, .team div {
     transition: .2s;
 }
 
-.leagues div:hover, #displayTeams div:hover {
+.leagues div:hover, #displayTeams div:hover, .team div:hover {
     transform: scale(1.2);
 }
 
-.leagues a, #displayTeams a {
+.leagues a, #displayTeams a, .team a {
     text-decoration: none;
     color: black;
 }
 
 /* Add some scale animation maybe */
-.leagues a:hover, #displayTeams div:hover {
+.leagues a:hover, #displayTeams div:hover, .team a:hover{
     color: rgba(14,124,49,1);
 }
 
-.leagues img, #displayTeams img {
+.leagues img, #displayTeams img, .team img {
     margin: auto;
     display: block;
 }
 
-.leagues h4, #displayTeams h4 {
+.leagues h4, #displayTeams h4, .team h4 {
     margin-top: 15px;
-} 
+    margin-bottom: 0px;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -20px;
+}
+
+.teamPlayers {
+    min-width: 200px;
+    /* max-width: 250px; */
+}
 
 .center_text {
     text-align: center;
+}
+
+.hidden {
+    display: none;
 }
 
 #standingsTable {

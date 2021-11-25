@@ -1,68 +1,42 @@
 const baseURL = "https://api-football-v1.p.rapidapi.com/v3/"
 
-// function getStats() {
+function createListByCountry() {
+    const countryDropdown = document.getElementById('countries');
+    countryDropdown.selectedIndex = 0;
 
-// fetch("https://api-football-v1.p.rapidapi.com/v3/leagues", {
-// 	"method": "GET",
-// 	"headers": {
-// 		"x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-// 		"x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
-// 	}
-// })
-
-//     .then(resp => resp.json())
-//     .then(stats => {
-//         console.table(stats);
-//     })
-//     .catch(err => {
-//         console.error(err);
-//     });
-// };
-https: //api-football-v1.p.rapidapi.com/v3/standings?season2021&league=515
-
-    function createListByCountry() {
-        const countryDropdown = document.getElementById('countries');
-        // countryDropdown.length = 0;
-
-        // let defaultOption = document.createElement('option');
-        // defaultOption.text = 'Choose A Country';
-
-        // countryDropdown.add(defaultOption);
-        countryDropdown.selectedIndex = 0;
-
-        const url = baseURL + "countries";
-        fetch(url, {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-                    "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+    const url = baseURL + "countries";
+    fetch(url, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+            }
+        })
+        .then(
+            async function (response) {
+                if (response.status !== 200) {
+                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
                 }
-            })
-            .then(
-                async function (response) {
-                    if (response.status !== 200) {
-                        console.warn('Looks like there was a problem. Status Code: ' + response.status);
-                        return;
+
+                // Examine the text in the response
+                response.json().then(function (data) {
+                    const countries = data.response;
+
+                    for (let i = 0; i < countries.length; i++) {
+                        let option = document.createElement('option');
+                        option.text = countries[i].name;
+                        option.value = countries[i].name;
+                        option.id = countries[i].code;
+                        countryDropdown.add(option);
                     }
-
-                    // Examine the text in the response
-                    response.json().then(function (data) {
-                        const countries = data.response;
-
-                        for (let i = 0; i < countries.length; i++) {
-                            let option = document.createElement('option');
-                            option.text = countries[i].name;
-                            option.value = countries[i].name;
-                            option.id = countries[i].code;
-                            countryDropdown.add(option);
-                        }
-                    });
-                }
-            )
-            .catch(err => {
-                console.error('Fetch Error - ', err);
-            });
-    }
+                });
+            }
+        )
+        .catch(err => {
+            console.error('Fetch Error - ', err);
+        });
+}
 
 function showLeaguesByCountry() {
     const selectedCountry = document.getElementById('countries').value;
@@ -116,7 +90,6 @@ function showLeaguesByCountry() {
                             a.id = leagues[i].league.id;
                             // **********COME BACK AND MAKE DATE DYNAMIC*************
                             a.href = `${baseURL}standings?season=${2021}&league=${a.id}`
-                            // a.onclick = showTeamsInLeague();
                             a.setAttribute('onclick', 'showTeamsInLeague(event, id, href)')
 
                             let logo = document.createElement('img');
@@ -260,9 +233,21 @@ function showTeamsInLeague(event, id, href) {
                         let teamName = document.createElement('h4');
                         teamName.setAttribute('class', 'center_text');
                         teamName.textContent = teams[i].team.name;
+                        // value of team name to pass on ***NOT WORKING****
+                        // let team = teams[i].team.name;
+                        let team = teamName.textContent;
 
-                        div.appendChild(logo);
-                        div.appendChild(teamName);
+                        let a = document.createElement('a');
+                        a.id = teams[i].team.id;
+                        // **********COME BACK AND MAKE DATE DYNAMIC*************
+                        a.href = `${baseURL}players?team=${a.id}&season=${2021}`
+                        a.value = teamName.textContent;
+                        // a.setAttribute('onclick', `showTeamInfo(event, id, href, ${team})`)
+                        a.setAttribute('onclick', 'showTeamInfo(event, id, href, value)')
+
+                        a.appendChild(logo);
+                        a.appendChild(teamName);
+                        div.appendChild(a);
 
                         displayTeams.appendChild(div);
                         standingsTable.appendChild(table);
@@ -277,12 +262,98 @@ function showTeamsInLeague(event, id, href) {
         });
 }
 
-// function buildRow(i) {
-//     return
-//     <tr id = `${i.team.id}`>
-//     <td></td>
-//     </tr>
-// }
+function showTeamInfo(event, id, href, team) {
+    event.preventDefault();
+
+    const listTeamName = team;
+
+    const url = href;
+    fetch(url, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+            }
+        })
+        .then(
+            async function (response) {
+                if (response.status !== 200) {
+                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+
+                response.json().then(function (data) {
+                    // not pulling in team name ****FIX***
+                    const team = data.response;
+
+                    const displayTeam = document.getElementById('showLeagues');
+                    displayTeam.innerHTML = '';
+
+                    const teamName = document.createElement('h1');
+                    teamName.textContent = listTeamName;
+                    teamName.setAttribute('class', 'center_text');
+
+                    let outerDiv = document.createElement('div');
+                    outerDiv.setAttribute('class', 'team');
+
+                    displayTeam.appendChild(teamName);
+
+                    for (let i = 0; i < team.length; i++) {
+                        let innerDiv = document.createElement('div');
+                        innerDiv.setAttribute('class', 'teamPlayers')
+
+                        let photo = document.createElement('img');
+                        photo.setAttribute('width', "150px");
+                        photo.src = team[i].player.photo;
+
+                        let playerName = document.createElement('h4');
+                        playerName.setAttribute('class', 'center_text');
+                        firstName = team[i].player.firstname;
+                        lastName = team[i].player.lastname;
+                        playerName.textContent = `${firstName} ${lastName}`;
+
+                        let details = document.createElement('div');
+                        details.setAttribute('class', 'details');
+
+                        let playerAge = document.createElement('h4');
+                        //playerAge.setAttribute('class')
+                        playerAge.textContent = `Age: ${team[i].player.age}`;
+
+                        let playerPosition = document.createElement('h4');
+                        playerPosition.textContent = team[i].statistics[0].games.position;
+
+                        // need to look for sidelined (sidelined by player id)
+                        let injured = document.createElement('h4');
+                        injured.textContent = 'INJURED'
+                        injured.value = team[i].player.injured;
+                        injured.setAttribute('class', 'injured');
+                        if(injured.value == false) {
+                            injured.setAttribute('class', 'hidden');
+                        }
+                        
+
+                        let a = document.createElement('a');
+                        a.id = team[i].player.id;
+                        a.href = '#'; //come back and set
+                        //a.setAttribute()
+
+                        a.appendChild(photo);
+                        a.appendChild(playerName);
+                        details.appendChild(playerAge);
+                        details.appendChild(playerPosition);
+                        details.appendChild(injured);
+                        a.appendChild(details);
+                        innerDiv.appendChild(a);
+                        outerDiv.appendChild(innerDiv);
+                        displayTeam.appendChild(outerDiv);
+
+                    }
+                })
+            })
+        .catch(err => {
+            console.error('Fetch Error - ', err);
+        });
+}
 
 
 window.addEventListener('load', createListByCountry);
