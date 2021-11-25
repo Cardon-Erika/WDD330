@@ -284,69 +284,85 @@ function showTeamInfo(event, id, href, team) {
 
                 response.json().then(function (data) {
                     // not pulling in team name ****FIX***
-                    const team = data.response;
+                    if (data.response == '') {
+                        const displayTeam = document.getElementById('showLeagues');
+                        displayTeam.innerHTML = '';
 
-                    const displayTeam = document.getElementById('showLeagues');
-                    displayTeam.innerHTML = '';
+                        const teamName = document.createElement('h1');
+                        teamName.textContent = listTeamName;
+                        teamName.setAttribute('class', 'center_text');
 
-                    const teamName = document.createElement('h1');
-                    teamName.textContent = listTeamName;
-                    teamName.setAttribute('class', 'center_text');
+                        let statement = document.createElement('h3');
+                        statement.setAttribute('class', 'center_text f400');
+                        statement.textContent = `We're sorry. There is no information for ${listTeamName} currently.`
 
-                    let outerDiv = document.createElement('div');
-                    outerDiv.setAttribute('class', 'team');
+                        displayTeam.appendChild(teamName);
+                        displayTeam.appendChild(statement);
+                    } else {
+                        const team = data.response;
 
-                    displayTeam.appendChild(teamName);
+                        const displayTeam = document.getElementById('showLeagues');
+                        displayTeam.innerHTML = '';
 
-                    for (let i = 0; i < team.length; i++) {
-                        let innerDiv = document.createElement('div');
-                        innerDiv.setAttribute('class', 'teamPlayers')
+                        const teamName = document.createElement('h1');
+                        teamName.textContent = listTeamName;
+                        teamName.setAttribute('class', 'center_text');
 
-                        let photo = document.createElement('img');
-                        photo.setAttribute('width', "150px");
-                        photo.src = team[i].player.photo;
+                        let outerDiv = document.createElement('div');
+                        outerDiv.setAttribute('class', 'team');
 
-                        let playerName = document.createElement('h4');
-                        playerName.setAttribute('class', 'center_text');
-                        firstName = team[i].player.firstname;
-                        lastName = team[i].player.lastname;
-                        playerName.textContent = `${firstName} ${lastName}`;
+                        displayTeam.appendChild(teamName);
 
-                        let details = document.createElement('div');
-                        details.setAttribute('class', 'details');
+                        for (let i = 0; i < team.length; i++) {
+                            let innerDiv = document.createElement('div');
+                            innerDiv.setAttribute('class', 'teamPlayers')
 
-                        let playerAge = document.createElement('h4');
-                        //playerAge.setAttribute('class')
-                        playerAge.textContent = `Age: ${team[i].player.age}`;
+                            let photo = document.createElement('img');
+                            photo.setAttribute('width', "150px");
+                            photo.src = team[i].player.photo;
 
-                        let playerPosition = document.createElement('h4');
-                        playerPosition.textContent = team[i].statistics[0].games.position;
+                            let playerName = document.createElement('h4');
+                            playerName.setAttribute('class', 'center_text');
+                            firstName = team[i].player.firstname;
+                            lastName = team[i].player.lastname;
+                            playerName.textContent = `${firstName} ${lastName}`;
 
-                        // need to look for sidelined (sidelined by player id)
-                        let injured = document.createElement('h4');
-                        injured.textContent = 'INJURED'
-                        injured.value = team[i].player.injured;
-                        injured.setAttribute('class', 'injured');
-                        if(injured.value == false) {
-                            injured.setAttribute('class', 'hidden');
+                            let details = document.createElement('div');
+                            details.setAttribute('class', 'details');
+
+                            let playerAge = document.createElement('h4');
+                            //playerAge.setAttribute('class')
+                            playerAge.textContent = `Age: ${team[i].player.age}`;
+
+                            let playerPosition = document.createElement('h4');
+                            playerPosition.textContent = team[i].statistics[0].games.position;
+
+                            // need to look for sidelined (sidelined by player id)
+                            let injured = document.createElement('h4');
+                            injured.textContent = 'INJURED'
+                            injured.value = team[i].player.injured;
+                            injured.setAttribute('class', 'injured');
+                            if (injured.value == false) {
+                                injured.setAttribute('class', 'hidden');
+                            }
+
+
+                            let a = document.createElement('a');
+                            a.id = team[i].player.id;
+                            a.href = '#'; //come back and set
+                            //a.setAttribute()
+
+                            a.appendChild(photo);
+                            a.appendChild(playerName);
+                            details.appendChild(playerAge);
+                            details.appendChild(playerPosition);
+                            details.appendChild(injured);
+                            a.appendChild(details);
+                            innerDiv.appendChild(a);
+                            outerDiv.appendChild(innerDiv);
+                            displayTeam.appendChild(outerDiv);
+
                         }
-                        
-
-                        let a = document.createElement('a');
-                        a.id = team[i].player.id;
-                        a.href = '#'; //come back and set
-                        //a.setAttribute()
-
-                        a.appendChild(photo);
-                        a.appendChild(playerName);
-                        details.appendChild(playerAge);
-                        details.appendChild(playerPosition);
-                        details.appendChild(injured);
-                        a.appendChild(details);
-                        innerDiv.appendChild(a);
-                        outerDiv.appendChild(innerDiv);
-                        displayTeam.appendChild(outerDiv);
-
                     }
                 })
             })
