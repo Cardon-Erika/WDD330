@@ -1,0 +1,11 @@
+#animated_squares {
+    display: flex;
+    justify-content: space-around;
+}
+
+#square1, #square2 {
+    margin: 25px;
+    width: 100px;
+    height: 100px;
+    background: #d16;
+}
