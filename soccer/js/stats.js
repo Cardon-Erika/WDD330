@@ -60,6 +60,10 @@ function showLeaguesByCountry() {
                 response.json().then(function (data) {
                     const displayLeagues = document.getElementById('showLeagues');
                     displayLeagues.innerHTML = '';
+                    const displayTeamsById = document.getElementById('showTeams');
+                    displayTeamsById.innerHTML = '';
+                    const displayPlayers = document.getElementById('showPlayers');
+                    displayPlayers.innerHTML = '';
 
                     const country = document.createElement('h1');
                     country.textContent = document.getElementById('countries').value;
@@ -86,11 +90,13 @@ function showLeaguesByCountry() {
                         if (selectedCountry == leagues[i].country.name) {
                             let div = document.createElement('div');
 
+                            let leagueId = leagues[i].league.id;
+
                             let a = document.createElement('a');
                             a.id = leagues[i].league.id;
                             // **********COME BACK AND MAKE DATE DYNAMIC*************
                             a.href = `${baseURL}standings?season=${2021}&league=${a.id}`
-                            a.setAttribute('onclick', 'showTeamsInLeague(event, id, href)')
+                            a.setAttribute('onclick', `showTeamsInLeague(event, id, href, ${leagueId})`)
 
                             let logo = document.createElement('img');
                             logo.setAttribute('width', '200px');
@@ -102,7 +108,6 @@ function showLeaguesByCountry() {
                             leagueName.setAttribute('class', 'center_text');
                             // leagueName.style.fontWeight = "bold";
                             leagueName.textContent = leagues[i].league.name;
-
 
                             a.appendChild(logo);
                             a.appendChild(leagueName);
@@ -137,8 +142,10 @@ function showLeaguesByCountry() {
         });
 }
 
-function showTeamsInLeague(event, id, href) {
+function showTeamsInLeague(event, id, href, leagueId) {
     event.preventDefault();
+
+    // let leagueId = leagueId
 
     const url = href;
     fetch(url, {
@@ -159,6 +166,10 @@ function showTeamsInLeague(event, id, href) {
                 response.json().then(function (data) {
                     const displayLeagues = document.getElementById('showLeagues');
                     displayLeagues.innerHTML = '';
+                    const displayTeamsById = document.getElementById('showTeams');
+                    displayTeamsById.innerHTML = '';
+                    const displayPlayers = document.getElementById('showPlayers');
+                    displayPlayers.innerHTML = '';
 
                     const league = document.createElement('h1');
                     // league.textContent = document.getElementById(id).h4.value;
@@ -166,7 +177,7 @@ function showTeamsInLeague(event, id, href) {
                     const leagueName = data.response[0].league.name;
                     league.textContent = `${countryName} - ${leagueName}`
                     league.setAttribute('class', 'center_text');
-                    displayLeagues.appendChild(league);
+                    displayTeamsById.appendChild(league);
 
                     const standingsTable = document.createElement('div');
                     standingsTable.id = "standingsTable";
@@ -196,6 +207,8 @@ function showTeamsInLeague(event, id, href) {
                     tr.appendChild(th6);
                     thead.appendChild(tr);
                     table.appendChild(thead);
+
+                    // const leagueId = data.response[0].league.id;
 
                     const teams = data.response[0].league.standings[0];
 
@@ -237,22 +250,33 @@ function showTeamsInLeague(event, id, href) {
                         // let team = teams[i].team.name;
                         let team = teamName.textContent;
 
+                        let teamId = teams[i].team.id;
+
                         let a = document.createElement('a');
                         a.id = teams[i].team.id;
                         // **********COME BACK AND MAKE DATE DYNAMIC*************
                         a.href = `${baseURL}players?team=${a.id}&season=${2021}`
-                        a.value = teamName.textContent;
+                        // a.value = teamName.textContent;
+                        a.value = `${countryName} - ${leagueName} - ${team}`
                         // a.setAttribute('onclick', `showTeamInfo(event, id, href, ${team})`)
-                        a.setAttribute('onclick', 'showTeamInfo(event, id, href, value)')
+                        a.setAttribute('onclick', `showTeamInfo(event, ${teamId}, href, value, ${leagueId})`)
+
+                        // let favoriteBtn = document.createElement('button');
+                        // favoriteBtn.innerText = 'Set As Favorite';
+                        // favoriteBtn.setAttribute('class', 'favoriteBtn');
+                        // favoriteBtn.id = teams[i].team.id;
+                        // favoriteBtn.href = `${baseURL}teams/statistics?league=${leagueId}&season=2021&team=${id}`
+                        // favoriteBtn.setAttribute('onclick', 'setAsFavorite(event, id, href)');
 
                         a.appendChild(logo);
                         a.appendChild(teamName);
                         div.appendChild(a);
+                        // div.appendChild(favoriteBtn);
 
                         displayTeams.appendChild(div);
                         standingsTable.appendChild(table);
-                        displayLeagues.appendChild(standingsTable);
-                        displayLeagues.appendChild(displayTeams);
+                        displayTeamsById.appendChild(standingsTable);
+                        displayTeamsById.appendChild(displayTeams);
                     }
                 });
             }
@@ -262,8 +286,11 @@ function showTeamsInLeague(event, id, href) {
         });
 }
 
-function showTeamInfo(event, id, href, team) {
+function showTeamInfo(event, teamId, href, team, leagueId) {
+    // add in team information (teams informations)
     event.preventDefault();
+
+    // let leagueId = leagueId;
 
     const listTeamName = team;
 
@@ -284,34 +311,51 @@ function showTeamInfo(event, id, href, team) {
 
                 response.json().then(function (data) {
                     // not pulling in team name ****FIX***
+
                     if (data.response == '') {
-                        const displayTeam = document.getElementById('showLeagues');
-                        displayTeam.innerHTML = '';
+                        const displayLeagues = document.getElementById('showLeagues');
+                        displayLeagues.innerHTML = '';
+                        const displayTeamsById = document.getElementById('showTeams');
+                        displayTeamsById.innerHTML = '';
+                        const displayPlayers = document.getElementById('showPlayers');
+                        displayPlayers.innerHTML = '';
 
                         const teamName = document.createElement('h1');
                         teamName.textContent = listTeamName;
                         teamName.setAttribute('class', 'center_text');
 
                         let statement = document.createElement('h3');
-                        statement.setAttribute('class', 'center_text f400');
+                        statement.setAttribute('class', 'center_text');
                         statement.textContent = `We're sorry. There is no information for ${listTeamName} currently.`
 
-                        displayTeam.appendChild(teamName);
-                        displayTeam.appendChild(statement);
+                        displayPlayers.appendChild(teamName);
+                        displayPlayers.appendChild(statement);
                     } else {
                         const team = data.response;
 
-                        const displayTeam = document.getElementById('showLeagues');
-                        displayTeam.innerHTML = '';
+                        const displayLeagues = document.getElementById('showLeagues');
+                        displayLeagues.innerHTML = '';
+                        const displayTeamsById = document.getElementById('showTeams');
+                        displayTeamsById.innerHTML = '';
+                        const displayPlayers = document.getElementById('showPlayers');
+                        displayPlayers.innerHTML = '';
 
                         const teamName = document.createElement('h1');
                         teamName.textContent = listTeamName;
                         teamName.setAttribute('class', 'center_text');
 
+                        let favoriteBtn = document.createElement('button');
+                        favoriteBtn.innerText = 'Set As Favorite';
+                        favoriteBtn.setAttribute('class', 'favoriteBtn');
+                        favoriteBtn.id = teamId;
+                        favoriteBtn.href = `${baseURL}teams/statistics?league=${leagueId}&season=2021&team=${teamId}`
+                        favoriteBtn.setAttribute('onclick', `setAsFavorite(event, ${teamId}, href)`);
+
                         let outerDiv = document.createElement('div');
                         outerDiv.setAttribute('class', 'team');
 
-                        displayTeam.appendChild(teamName);
+                        displayPlayers.appendChild(teamName);
+                        displayPlayers.appendChild(favoriteBtn);
 
                         for (let i = 0; i < team.length; i++) {
                             let innerDiv = document.createElement('div');
@@ -360,10 +404,99 @@ function showTeamInfo(event, id, href, team) {
                             a.appendChild(details);
                             innerDiv.appendChild(a);
                             outerDiv.appendChild(innerDiv);
-                            displayTeam.appendChild(outerDiv);
+                            displayPlayers.appendChild(outerDiv);
 
                         }
                     }
+                })
+            })
+        .catch(err => {
+            console.error('Fetch Error - ', err);
+        });
+}
+
+function setAsFavorite(event, id, href) {
+    event.preventDefault();
+
+    const url = href;
+    // const url = `${baseURL}teams/statistics?league=${a}$season=2021&team=${id}`;
+    fetch(url, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+            }
+        })
+        .then(
+            async function (response) {
+                if (response.status !== 200) {
+                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+
+                response.json().then(function (data) {
+                    // not pulling in team name ****FIX***
+                    const displayFavoriteTeam = document.getElementById('displayFavorite');
+                    displayFavoriteTeam.innerHTML = '';
+
+                    const leagueName = document.createElement('h2');
+                    leagueName.textContent = data.response.team.name;
+
+                    displayFavoriteTeam.appendChild(leagueName);
+
+                    const info = data.response;
+
+                    const fixtures = document.createElement('div');
+                    fixtures.id = 'fixtures';
+
+                    const cards = document.createElement('div');
+                    cards.id = 'cards';
+
+                    const wins = document.createElement('h4');
+                    wins.textContent = `Wins: ${data.response.fixtures.wins.total}`;
+
+                    const losses = document.createElement('h4');
+                    losses.textContent = `Losses: ${info.fixtures.loses.total}`;
+
+                    const draws = document.createElement('h4');
+                    draws.textContent = `Draws: ${info.fixtures.draws.total}`;
+
+                    const redCards = document.createElement('h4');
+                    const red = info.cards.red;
+                    const redArray = Object.entries(red);
+                    let redCardTotal = 0;
+                    for (let i=0; i < redArray.length; i++) {
+                        let total = redArray[i][1].total;
+                        if (total == null) {
+                            redCardTotal += parseInt(0);
+                        } else {
+                            redCardTotal += parseInt(total);
+                        }
+                    }
+                    redCards.textContent = `Red Cards: ${redCardTotal}`;
+
+                    const yellowCards = document.createElement('h4');
+                    const yellow = info.cards.yellow;
+                    const yellowArray = Object.entries(yellow);
+                    let yellowCardTotal = 0;
+                    for (let i=0; i < yellowArray.length; i++) {
+                        let total = yellowArray[i][1].total;
+                        if (total == null) {
+                            yellowCardTotal += parseInt(0);
+                        } else {
+                            yellowCardTotal += parseInt(total);
+                        }
+                    }
+                    yellowCards.textContent = `Yellow Cards: ${yellowCardTotal}`;
+
+                    fixtures.appendChild(wins);
+                    fixtures.appendChild(losses);
+                    fixtures.appendChild(draws);
+                    cards.appendChild(redCards);
+                    cards.appendChild(yellowCards);
+                    displayFavoriteTeam.appendChild(fixtures);
+                    displayFavoriteTeam.appendChild(cards);
+
                 })
             })
         .catch(err => {
