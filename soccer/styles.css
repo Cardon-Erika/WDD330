@@ -131,11 +131,11 @@ p {
     clear: both;
 }
 
-.leagues div, #displayTeams div, .team div {
+.leagues div, #displayTeams div, .team div, .favoriteBtn {
     transition: .2s;
 }
 
-.leagues div:hover, #displayTeams div:hover, .team div:hover {
+.leagues div:hover, #displayTeams div:hover, .team div:hover, .favoriteBtn:hover {
     transform: scale(1.2);
 }
 
@@ -182,13 +182,11 @@ p {
     background-color: rgba(14,124,49,1);
     color: white;
     padding: 5px 10px;
-    transition: none;
     float: right;
     margin-bottom: 15px;
 }
 
 .favoriteBtn:hover {
-    transform: none;
     color: black;
 }
 
