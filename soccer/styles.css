@@ -17,7 +17,18 @@ nav {
     background-color: black;
     margin: 0px;
     padding: 15px 30px;
+    /* Change back if add links back in */
+    height: 60px;
 }
+
+/* footer {
+    background-color: black;
+    margin: 0px;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+} */
 
 nav ul {
     margin: 0px;
@@ -74,6 +85,7 @@ main {
 
 h1 {
     font-size: 2.4em;
+    font-weight: 400;
     /* background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,0)); */
     /* background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,1), rgba(255,255,255,0)); */
     background: linear-gradient(to right, rgba(14,124,49,0), rgba(14,124,49,1), rgba(14,124,49,1), rgba(14,124,49,0));
@@ -98,6 +110,7 @@ h4 {
 
 h5 {
     font-size: 1.2em;
+    font-weight: 400;
 }
 
 h6 {
@@ -127,7 +140,7 @@ p {
 }
 
 .team {
-    gap: 65px;
+    gap: 35px;
     clear: both;
 }
 
@@ -145,7 +158,7 @@ p {
 }
 
 /* Add some scale animation maybe */
-.leagues a:hover, #displayTeams div:hover, .team a:hover{
+.leagues a:hover, #displayTeams a:hover, .team a:hover{
     color: rgba(14,124,49,1);
 }
 
@@ -154,7 +167,7 @@ p {
     display: block;
 }
 
-.leagues h4, #displayTeams h4, .team h4 {
+.leagues h4, #displayTeams h4, .team h5 {
     margin-top: 15px;
     margin-bottom: 0px;
 }
@@ -165,10 +178,10 @@ p {
     margin-top: -20px;
 }
 
-.teamPlayers {
+/* .teamPlayers {
     min-width: 200px;
-    /* max-width: 250px; */
-}
+    max-width: 200px;
+} */
 
 .center_text {
     text-align: center;
@@ -197,16 +210,17 @@ p {
     margin-top: 20px;
 }
 
-#displayFavorite h2, #displayFavorite div {
+#displayFavorite h1, #displayFavorite div {
     /* padding-left: 50px; */
     /* remove background gradient */
     background: none;
     color: black;
 }
 
-#displayFavorite h2 {
+#displayFavorite h1 {
     margin-bottom: 0px;
     margin-top: 15px;
+    text-align: center;
 }
 
 #displayFavorite>div {
@@ -272,7 +286,7 @@ table {
 
 table, th, td {
     border: 1px solid white;
-    padding: 10px;
+    padding: 5px 10px;
 }
 
 th {
@@ -285,7 +299,8 @@ td {
 
 @media (min-width: 900px) {
     h1 {
-        font-size: 3.5em;
+        font-size: 3.2em;
+        font-weight: 400;
     }
     
     h2 {
@@ -316,7 +331,7 @@ td {
         grid-column: 1/3;
     }
 
-    #displayFavorite>h2, #displayFavorite>div {
+    #displayFavorite>h1, #displayFavorite>div {
         padding-left: 100px;
         padding-right: 100px;
     }
@@ -328,6 +343,11 @@ td {
         align-items: center;
     }
 
+    /* .teamPlayers {
+        min-width: 200px;
+        max-width: 250px;
+    } */
+
     #left {
         align-items: flex-start;
     }
@@ -336,6 +356,10 @@ td {
         display: grid;
         grid-column: 2/3;
         grid-row: 2/3;
+    }
+
+    table, th, td {
+        padding: 10px;
     }
 
     #displayTeams {

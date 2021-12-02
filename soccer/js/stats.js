@@ -105,7 +105,7 @@ export function showLeaguesByCountry() {
                             a.addEventListener('click', (event) => showTeamsInLeague(event, a.id, a.href, leagueId));
 
                             let logo = document.createElement('img');
-                            logo.setAttribute('width', '200px');
+                            logo.setAttribute('width', '150px');
                             // *****Set a default image if none availble******
                             logo.src = leagues[i].league.logo;
 
@@ -374,10 +374,10 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                             innerDiv.setAttribute('class', 'teamPlayers')
 
                             let photo = document.createElement('img');
-                            photo.setAttribute('width', "150px");
+                            photo.setAttribute('width', "100px");
                             photo.src = team[i].player.photo;
 
-                            let playerName = document.createElement('h4');
+                            let playerName = document.createElement('h5');
                             playerName.setAttribute('class', 'center_text');
                             const firstName = team[i].player.firstname;
                             const lastName = team[i].player.lastname;
@@ -386,11 +386,11 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                             let details = document.createElement('div');
                             details.setAttribute('class', 'details');
 
-                            let playerAge = document.createElement('h4');
+                            let playerAge = document.createElement('h5');
                             //playerAge.setAttribute('class')
                             playerAge.textContent = `Age: ${team[i].player.age}`;
 
-                            let playerPosition = document.createElement('h4');
+                            let playerPosition = document.createElement('h5');
                             playerPosition.textContent = team[i].statistics[0].games.position;
 
                             // need to look for sidelined (sidelined by player id)
@@ -453,7 +453,7 @@ export function setAsFavorite(event, id, href) {
 
                     const div = document.createElement('div');
 
-                    const leagueName = document.createElement('h2');
+                    const leagueName = document.createElement('h1');
                     leagueName.textContent = data.response.team.name;
 
                     displayFavoriteTeam.appendChild(leagueName);
