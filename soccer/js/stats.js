@@ -1,6 +1,10 @@
+import {
+    addFavoriteTeam
+} from "./favorites.js";
+
 const baseURL = "https://api-football-v1.p.rapidapi.com/v3/"
 
-function createListByCountry() {
+export function createListByCountry() {
     const countryDropdown = document.getElementById('countries');
     countryDropdown.selectedIndex = 0;
 
@@ -38,7 +42,7 @@ function createListByCountry() {
         });
 }
 
-function showLeaguesByCountry() {
+export function showLeaguesByCountry() {
     const selectedCountry = document.getElementById('countries').value;
 
     const url = baseURL + "leagues";
@@ -96,7 +100,9 @@ function showLeaguesByCountry() {
                             a.id = leagues[i].league.id;
                             // **********COME BACK AND MAKE DATE DYNAMIC*************
                             a.href = `${baseURL}standings?season=${2021}&league=${a.id}`
-                            a.setAttribute('onclick', `showTeamsInLeague(event, id, href, ${leagueId})`)
+                            // a.setAttribute('onclick', `showTeamsInLeague(event, id, href, ${leagueId})`)
+                            // lets module run
+                            a.addEventListener('click', (event) => showTeamsInLeague(event, a.id, a.href, leagueId));
 
                             let logo = document.createElement('img');
                             logo.setAttribute('width', '200px');
@@ -142,7 +148,7 @@ function showLeaguesByCountry() {
         });
 }
 
-function showTeamsInLeague(event, id, href, leagueId) {
+export function showTeamsInLeague(event, id, href, leagueId) {
     event.preventDefault();
 
     // let leagueId = leagueId
@@ -259,7 +265,8 @@ function showTeamsInLeague(event, id, href, leagueId) {
                         // a.value = teamName.textContent;
                         a.value = `${countryName} - ${leagueName} - ${team}`
                         // a.setAttribute('onclick', `showTeamInfo(event, id, href, ${team})`)
-                        a.setAttribute('onclick', `showTeamInfo(event, ${teamId}, href, value, ${leagueId})`)
+                        // a.setAttribute('onclick', `showTeamInfo(event, ${teamId}, href, value, ${leagueId})`)
+                        a.addEventListener('click', (event) => showTeamInfo(event, teamId, a.href, a.value, leagueId))
 
                         // let favoriteBtn = document.createElement('button');
                         // favoriteBtn.innerText = 'Set As Favorite';
@@ -286,7 +293,7 @@ function showTeamsInLeague(event, id, href, leagueId) {
         });
 }
 
-function showTeamInfo(event, teamId, href, team, leagueId) {
+export function showTeamInfo(event, teamId, href, team, leagueId) {
     // add in team information (teams informations)
     event.preventDefault();
 
@@ -349,7 +356,12 @@ function showTeamInfo(event, teamId, href, team, leagueId) {
                         favoriteBtn.setAttribute('class', 'favoriteBtn');
                         favoriteBtn.id = teamId;
                         favoriteBtn.href = `${baseURL}teams/statistics?league=${leagueId}&season=2021&team=${teamId}`
-                        favoriteBtn.setAttribute('onclick', `setAsFavorite(event, ${teamId}, href)`);
+                        // favoriteBtn.setAttribute('onclick', `setAsFavorite(event, ${teamId}, href)`);
+                        const displayFavoriteTeam = document.getElementById('displayFavorite');
+                        favoriteBtn.addEventListener('click', (event) => {
+                            setAsFavorite(event, teamId, favoriteBtn.href);
+                            // addFavoriteTeam(displayFavoriteTeam.innerHTML);
+                        });
 
                         let outerDiv = document.createElement('div');
                         outerDiv.setAttribute('class', 'team');
@@ -367,8 +379,8 @@ function showTeamInfo(event, teamId, href, team, leagueId) {
 
                             let playerName = document.createElement('h4');
                             playerName.setAttribute('class', 'center_text');
-                            firstName = team[i].player.firstname;
-                            lastName = team[i].player.lastname;
+                            const firstName = team[i].player.firstname;
+                            const lastName = team[i].player.lastname;
                             playerName.textContent = `${firstName} ${lastName}`;
 
                             let details = document.createElement('div');
@@ -415,7 +427,7 @@ function showTeamInfo(event, teamId, href, team, leagueId) {
         });
 }
 
-function setAsFavorite(event, id, href) {
+export function setAsFavorite(event, id, href) {
     event.preventDefault();
 
     const url = href;
@@ -434,10 +446,12 @@ function setAsFavorite(event, id, href) {
                     return;
                 }
 
-                response.json().then(function (data) {
+                response.json().then(async function (data) {
                     // not pulling in team name ****FIX***
                     const displayFavoriteTeam = document.getElementById('displayFavorite');
                     displayFavoriteTeam.innerHTML = '';
+
+                    const div = document.createElement('div');
 
                     const leagueName = document.createElement('h2');
                     leagueName.textContent = data.response.team.name;
@@ -446,26 +460,45 @@ function setAsFavorite(event, id, href) {
 
                     const info = data.response;
 
+                    const left = document.createElement('div');
+                    left.id = 'left';
+
+                    const right = document.createElement('div');
+                    right.id = 'right';
+
                     const fixtures = document.createElement('div');
                     fixtures.id = 'fixtures';
 
                     const cards = document.createElement('div');
                     cards.id = 'cards';
 
+                    const upcoming = document.createElement('div');
+                    upcoming.id = 'upcoming';
+
+                    const match = document.createElement('div');
+                    match.id = 'match';
+
+                    // Pull in current season year and display??
+                    const season = document.createElement('h3');
+                    season.textContent = 'Current Season Stats';
+
                     const wins = document.createElement('h4');
-                    wins.textContent = `Wins: ${data.response.fixtures.wins.total}`;
+                    // wins.textContent = `Wins: ${info.fixtures.wins.total}`;
+                    wins.textContent = `Won: ${info.fixtures.wins.total}`;
 
                     const losses = document.createElement('h4');
-                    losses.textContent = `Losses: ${info.fixtures.loses.total}`;
+                    // losses.textContent = `Losses: ${info.fixtures.loses.total}`;
+                    losses.textContent = `Lost: ${info.fixtures.loses.total}`;
 
                     const draws = document.createElement('h4');
-                    draws.textContent = `Draws: ${info.fixtures.draws.total}`;
+                    // draws.textContent = `Draws: ${info.fixtures.draws.total}`;
+                    draws.textContent = `Draw: ${info.fixtures.draws.total}`;
 
                     const redCards = document.createElement('h4');
                     const red = info.cards.red;
                     const redArray = Object.entries(red);
                     let redCardTotal = 0;
-                    for (let i=0; i < redArray.length; i++) {
+                    for (let i = 0; i < redArray.length; i++) {
                         let total = redArray[i][1].total;
                         if (total == null) {
                             redCardTotal += parseInt(0);
@@ -479,7 +512,7 @@ function setAsFavorite(event, id, href) {
                     const yellow = info.cards.yellow;
                     const yellowArray = Object.entries(yellow);
                     let yellowCardTotal = 0;
-                    for (let i=0; i < yellowArray.length; i++) {
+                    for (let i = 0; i < yellowArray.length; i++) {
                         let total = yellowArray[i][1].total;
                         if (total == null) {
                             yellowCardTotal += parseInt(0);
@@ -489,14 +522,71 @@ function setAsFavorite(event, id, href) {
                     }
                     yellowCards.textContent = `Yellow Cards: ${yellowCardTotal}`;
 
+                    const homeFlag = document.createElement('img');
+                    homeFlag.src = info.team.logo;
+                    homeFlag.setAttribute('width', '75px');
+
+
                     fixtures.appendChild(wins);
                     fixtures.appendChild(losses);
                     fixtures.appendChild(draws);
                     cards.appendChild(redCards);
                     cards.appendChild(yellowCards);
-                    displayFavoriteTeam.appendChild(fixtures);
-                    displayFavoriteTeam.appendChild(cards);
+                    match.appendChild(homeFlag);
 
+                    const nextGame = document.createElement('h4');
+                    const findGame = await findNextGame(id);
+                    if (findGame != undefined) {
+                        const prettyGame = prettyDate(findGame);
+                        nextGame.textContent = prettyGame;
+
+                        const vs = document.createElement('h4');
+                        vs.textContent = ' VS ';
+
+                        const oppFlag = document.createElement('img');
+                        oppFlag.src = await findOppFlag(id, findGame);
+                        oppFlag.setAttribute('width', '75px');
+
+                        const location = document.createElement('h4');
+                        const findLocation = await findGameLocation(id, findGame);
+                        location.textContent = findLocation;
+
+                        match.appendChild(vs);
+                        match.appendChild(oppFlag);
+                        upcoming.appendChild(match);
+                        upcoming.appendChild(nextGame);
+                        upcoming.appendChild(location);
+                    } else {
+                        nextGame.textContent = 'Current Season has Ended';
+
+                        upcoming.appendChild(match);
+                        upcoming.appendChild(nextGame);
+                    }
+
+                    // fixtures.appendChild(wins);
+                    // fixtures.appendChild(losses);
+                    // fixtures.appendChild(draws);
+                    // cards.appendChild(redCards);
+                    // cards.appendChild(yellowCards);
+                    // match.appendChild(homeFlag);
+                    // match.appendChild(vs);
+                    // match.appendChild(oppFlag);
+                    // upcoming.appendChild(match);
+                    // upcoming.appendChild(nextGame);
+                    // upcoming.appendChild(location);
+
+                    // addFavoriteTeam(displayFavoriteTeam.innerHTML);
+
+                    left.appendChild(season);
+                    left.appendChild(fixtures);
+                    left.appendChild(cards);
+                    right.appendChild(upcoming);
+
+                    div.appendChild(left);
+                    div.appendChild(right);
+                    displayFavoriteTeam.appendChild(div);
+
+                    addFavoriteTeam(displayFavoriteTeam.innerHTML);
                 })
             })
         .catch(err => {
@@ -504,7 +594,156 @@ function setAsFavorite(event, id, href) {
         });
 }
 
+async function findNextGame(id) {
+    const url = `${baseURL}fixtures?season=2021&team=${id}`;
+    return fetch(url, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+            }
+        })
+        .then(
+            async function (response) {
+                if (response.status !== 200) {
+                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
 
-window.addEventListener('load', createListByCountry);
+                return response.json().then(function (data) {
+                    // return data.response;
+                    const today = new Date();
 
-document.getElementById('createListByCountry').addEventListener('click', showLeaguesByCountry);
+                    const games = data.response
+                    for (let game of games) {
+                        const gameDate = game.fixture.date
+                        const gameDateFormatted = new Date(gameDate);
+                        // const gameDateStr = gameDateFormatted.toString();
+                        if (gameDateFormatted >= today) {
+                            return gameDateFormatted;
+                        }
+                    }
+                })
+            })
+        .catch(err => {
+            console.error('Fetch Error - ', err);
+        });
+}
+
+function prettyDate(findGame) {
+    if (findGame == undefined) {
+        return null;
+    } else {
+        // const date = findGame;
+
+        const dayOfWeek = findGame.toLocaleString('default', {
+            weekday: 'short'
+        });
+        const month = findGame.toLocaleString('default', {
+            month: 'short'
+        });
+        const day = findGame.getDate();
+        let hours = findGame.getHours();
+        let minutes = findGame.getMinutes().toString();
+        let meridiem = " AM";
+        const timeZone = findGame.toLocaleDateString(undefined, {
+            day: '2-digit',
+            timeZoneName: 'short'
+        }).substring(4);
+
+        if (hours > 12) {
+            hours = hours - 12;
+            meridiem = " PM";
+        } else if (hours === 0) {
+            hours = 12;
+        }
+
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        return `${dayOfWeek} ${month} ${day} - ${hours}:${minutes} ${meridiem} ${timeZone}`;
+    }
+}
+
+async function findOppFlag(id, findGame) {
+    if (findGame == undefined) {
+        return null;
+    } else {
+        const url = `${baseURL}fixtures?season=2021&team=${id}`;
+        return fetch(url, {
+                "method": "GET",
+                "headers": {
+                    "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                    "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+                }
+            })
+            .then(
+                async function (response) {
+                    if (response.status !== 200) {
+                        console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                        return;
+                    }
+
+                    return response.json().then(function (data) {
+                        // return data.response;
+                        const gameToFind = JSON.stringify(findGame);
+
+                        const games = data.response
+
+                        for (let game of games) {
+                            const gameDate = game.fixture.date
+                            const gameDateFormatted = JSON.stringify(new Date(gameDate));
+                            // const gameDateStr = gameDateFormatted.toString();
+                            if (gameDateFormatted == gameToFind) {
+                                const oppTeam = game.teams;
+                                if (oppTeam.away.id != id) {
+                                    return oppTeam.away.logo;
+                                } else if (oppTeam.home.id != id) {
+                                    return oppTeam.home.logo;
+                                }
+                            }
+                        }
+                    })
+                })
+            .catch(err => {
+                console.error('Fetch Error - ', err);
+            });
+    }
+}
+
+async function findGameLocation(id, findGame) {
+    const url = `${baseURL}fixtures?season=2021&team=${id}`;
+    return fetch(url, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+            }
+        })
+        .then(
+            async function (response) {
+                if (response.status !== 200) {
+                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+
+                return response.json().then(function (data) {
+                    // return data.response;
+                    const gameToFind = JSON.stringify(findGame);
+
+                    const games = data.response
+
+                    for (let game of games) {
+                        const gameDate = game.fixture.date
+                        const gameDateFormatted = JSON.stringify(new Date(gameDate));
+                        // const gameDateStr = gameDateFormatted.toString();
+                        if (gameDateFormatted == gameToFind) {
+                            return game.fixture.venue.name;
+                        }
+                    }
+                })
+            })
+        .catch(err => {
+            console.error('Fetch Error - ', err);
+        });
+}
