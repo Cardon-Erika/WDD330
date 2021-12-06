@@ -103,6 +103,7 @@ export function showLeaguesByCountry() {
                             // a.setAttribute('onclick', `showTeamsInLeague(event, id, href, ${leagueId})`)
                             // lets module run
                             a.addEventListener('click', (event) => showTeamsInLeague(event, a.id, a.href, leagueId));
+                            // change team pull to teams/team information
 
                             let logo = document.createElement('img');
                             logo.setAttribute('width', '150px');
@@ -185,105 +186,112 @@ export function showTeamsInLeague(event, id, href, leagueId) {
                     league.setAttribute('class', 'center_text');
                     displayTeamsById.appendChild(league);
 
-                    const standingsTable = document.createElement('div');
-                    standingsTable.id = "standingsTable";
-                    const displayTeams = document.createElement('div');
-                    displayTeams.id = "displayTeams";
-
-                    const table = document.createElement('table');
-                    const thead = document.createElement('thead');
-                    const tr = document.createElement('tr');
-                    const th1 = document.createElement('th'); //team name
-                    th1.textContent = 'Team';
-                    const th2 = document.createElement('th'); //wins
-                    th2.textContent = 'Win';
-                    const th3 = document.createElement('th'); //losses
-                    th3.textContent = 'Lose';
-                    const th4 = document.createElement('th'); //draws
-                    th4.textContent = 'Draw'
-                    const th5 = document.createElement('th'); //draws
-                    th5.textContent = 'GP'
-                    const th6 = document.createElement('th'); //points
-                    th6.textContent = 'Points';
-                    tr.appendChild(th1);
-                    tr.appendChild(th2);
-                    tr.appendChild(th3);
-                    tr.appendChild(th4);
-                    tr.appendChild(th5);
-                    tr.appendChild(th6);
-                    thead.appendChild(tr);
-                    table.appendChild(thead);
-
                     // const leagueId = data.response[0].league.id;
 
-                    const teams = data.response[0].league.standings[0];
+                    const conferences = data.response[0].league.standings;
 
-                    for (let i = 0; i < teams.length; i++) {
-                        const tri = document.createElement('tr')
-                        // innerHTML += buildRow(i);
-                        tri.id = teams[i].team.id;
-                        const td1 = document.createElement('td');
-                        td1.textContent = teams[i].team.name; // team name
-                        const td2 = document.createElement('td');
-                        td2.textContent = teams[i].all.win; // wins
-                        const td3 = document.createElement('td');
-                        td3.textContent = teams[i].all.lose; // losses
-                        const td4 = document.createElement('td');
-                        td4.textContent = teams[i].all.draw; // draws
-                        const td5 = document.createElement('td');
-                        td5.textContent = teams[i].all.played // points
-                        const td6 = document.createElement('td');
-                        td6.textContent = teams[i].points // points
-                        tri.appendChild(td1);
-                        tri.appendChild(td2);
-                        tri.appendChild(td3);
-                        tri.appendChild(td4);
-                        tri.appendChild(td5);
-                        tri.appendChild(td6);
-                        table.appendChild(tri);
-                        // end of standings table code...
+                    for (let i = 0; i < conferences.length; i++) {
+                        const conferenceName = document.createElement('h2');
+                        conferenceName.textContent = conferences[i][0].group;
 
-                        let div = document.createElement('div');
+                        const displayConference = document.createElement('div');
+                        displayConference.setAttribute('class', "displayConference")
+                        const standingsTable = document.createElement('div');
+                        standingsTable.id = "standingsTable";
+                        const displayTeams = document.createElement('div');
+                        displayTeams.id = "displayTeams";
 
-                        let logo = document.createElement('img');
-                        logo.setAttribute('width', '100px');
-                        logo.src = teams[i].team.logo;
+                        displayConference.appendChild(conferenceName);
+                        // displayConference.appendChild(displayTeams);
 
-                        let teamName = document.createElement('h4');
-                        teamName.setAttribute('class', 'center_text');
-                        teamName.textContent = teams[i].team.name;
-                        // value of team name to pass on ***NOT WORKING****
-                        // let team = teams[i].team.name;
-                        let team = teamName.textContent;
+                        const table = document.createElement('table');
+                        const thead = document.createElement('thead');
+                        const tr = document.createElement('tr');
+                        const th1 = document.createElement('th'); //team name
+                        th1.textContent = 'Team';
+                        const th2 = document.createElement('th'); //wins
+                        th2.textContent = 'Win';
+                        const th3 = document.createElement('th'); //losses
+                        th3.textContent = 'Lose';
+                        const th4 = document.createElement('th'); //draws
+                        th4.textContent = 'Draw'
+                        const th5 = document.createElement('th'); //draws
+                        th5.textContent = 'GP'
+                        const th6 = document.createElement('th'); //points
+                        th6.textContent = 'Points';
+                        tr.appendChild(th1);
+                        tr.appendChild(th2);
+                        tr.appendChild(th3);
+                        tr.appendChild(th4);
+                        tr.appendChild(th5);
+                        tr.appendChild(th6);
+                        thead.appendChild(tr);
+                        table.appendChild(thead);
 
-                        let teamId = teams[i].team.id;
+                        // bring back??
+                        const teams = data.response[0].league.standings[i];
 
-                        let a = document.createElement('a');
-                        a.id = teams[i].team.id;
-                        // **********COME BACK AND MAKE DATE DYNAMIC*************
-                        a.href = `${baseURL}players?team=${a.id}&season=${2021}`
-                        // a.value = teamName.textContent;
-                        a.value = `${countryName} - ${leagueName} - ${team}`
-                        // a.setAttribute('onclick', `showTeamInfo(event, id, href, ${team})`)
-                        // a.setAttribute('onclick', `showTeamInfo(event, ${teamId}, href, value, ${leagueId})`)
-                        a.addEventListener('click', (event) => showTeamInfo(event, teamId, a.href, a.value, leagueId))
+                        for (let i = 0; i < teams.length; i++) {
+                            const tri = document.createElement('tr')
+                            // innerHTML += buildRow(i);
+                            tri.id = teams[i].team.id;
+                            const td1 = document.createElement('td');
+                            td1.textContent = teams[i].team.name; // team name
+                            const td2 = document.createElement('td');
+                            td2.textContent = teams[i].all.win; // wins
+                            const td3 = document.createElement('td');
+                            td3.textContent = teams[i].all.lose; // losses
+                            const td4 = document.createElement('td');
+                            td4.textContent = teams[i].all.draw; // draws
+                            const td5 = document.createElement('td');
+                            td5.textContent = teams[i].all.played // points
+                            const td6 = document.createElement('td');
+                            td6.textContent = teams[i].points // points
+                            tri.appendChild(td1);
+                            tri.appendChild(td2);
+                            tri.appendChild(td3);
+                            tri.appendChild(td4);
+                            tri.appendChild(td5);
+                            tri.appendChild(td6);
+                            table.appendChild(tri);
+                            // end of standings table code...
 
-                        // let favoriteBtn = document.createElement('button');
-                        // favoriteBtn.innerText = 'Set As Favorite';
-                        // favoriteBtn.setAttribute('class', 'favoriteBtn');
-                        // favoriteBtn.id = teams[i].team.id;
-                        // favoriteBtn.href = `${baseURL}teams/statistics?league=${leagueId}&season=2021&team=${id}`
-                        // favoriteBtn.setAttribute('onclick', 'setAsFavorite(event, id, href)');
+                            let div = document.createElement('div');
 
-                        a.appendChild(logo);
-                        a.appendChild(teamName);
-                        div.appendChild(a);
-                        // div.appendChild(favoriteBtn);
+                            let logo = document.createElement('img');
+                            logo.setAttribute('width', '100px');
+                            logo.src = teams[i].team.logo;
 
-                        displayTeams.appendChild(div);
-                        standingsTable.appendChild(table);
-                        displayTeamsById.appendChild(standingsTable);
-                        displayTeamsById.appendChild(displayTeams);
+                            let teamName = document.createElement('h4');
+                            teamName.setAttribute('class', 'center_text');
+                            teamName.textContent = teams[i].team.name;
+                            // let team = teams[i].team.name;
+                            let team = teamName.textContent;
+
+                            let teamId = teams[i].team.id;
+
+                            let a = document.createElement('a');
+                            a.id = teams[i].team.id;
+                            // **********COME BACK AND MAKE DATE DYNAMIC*************
+                            // a.href = `${baseURL}players?team=${a.id}&season=${2021}`
+
+                            // try pull with players squad
+                            a.href = `${baseURL}players/squads?team=${a.id}`
+
+                            a.value = `${countryName} - ${leagueName} - ${team}`
+                            a.addEventListener('click', (event) => showTeamInfo(event, teamId, a.href, a.value, leagueId))
+
+                            a.appendChild(logo);
+                            a.appendChild(teamName);
+                            div.appendChild(a);
+
+                            displayTeams.appendChild(div);
+                            standingsTable.appendChild(table);
+
+                        }
+                        displayConference.appendChild(standingsTable);
+                        displayConference.appendChild(displayTeams);
+                        displayTeamsById.appendChild(displayConference);
                     }
                 });
             }
@@ -316,7 +324,7 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                     return;
                 }
 
-                response.json().then(function (data) {
+                response.json().then(async function (data) {
                     // not pulling in team name ****FIX***
 
                     if (data.response == '') {
@@ -338,7 +346,10 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                         displayPlayers.appendChild(teamName);
                         displayPlayers.appendChild(statement);
                     } else {
-                        const team = data.response;
+                        // change info pull to player squads ??
+                        // current info pull is fine, need to pull from all info pages...
+                        // const team = data.response;
+                        const team = data.response[0].players;
 
                         const displayLeagues = document.getElementById('showLeagues');
                         displayLeagues.innerHTML = '';
@@ -369,42 +380,94 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                         displayPlayers.appendChild(teamName);
                         displayPlayers.appendChild(favoriteBtn);
 
+                        // insert next game info
+                        let upcomingMatch = document.createElement('div');
+                        upcomingMatch.id = "upcoming_match";
+
+                        const matchUp = document.createElement('div');
+                        matchUp.id = 'match_up';
+
+                        const nextGameTitle = document.createElement('h4');
+                        nextGameTitle.textContent = "NEXT GAME";
+                        nextGameTitle.id = "next_game_title";
+
+                        const nextGame = document.createElement('h4');
+                        const findGame = await findNextGame(teamId);
+
+                        const homeFlag = document.createElement('img');
+                        homeFlag.src = await findHomeFlag(teamId)
+                        homeFlag.setAttribute('width', '75px');
+
+                        upcomingMatch.appendChild(nextGameTitle);
+                        matchUp.appendChild(homeFlag);
+                        if (findGame != undefined) {
+                            const prettyGame = prettyDate(findGame);
+                            nextGame.textContent = prettyGame;
+
+                            const vs = document.createElement('h4');
+                            vs.textContent = ' VS ';
+
+                            const oppFlag = document.createElement('img');
+                            oppFlag.src = await findOppFlag(teamId, findGame);
+                            oppFlag.setAttribute('width', '75px');
+
+                            const location = document.createElement('h4');
+                            const findLocation = await findGameLocation(teamId, findGame);
+                            location.textContent = findLocation;
+
+                            matchUp.appendChild(vs);
+                            matchUp.appendChild(oppFlag);
+                            upcomingMatch.appendChild(matchUp);
+                            upcomingMatch.appendChild(nextGame);
+                            upcomingMatch.appendChild(location);
+                        } else {
+                            nextGame.textContent = 'Current Season has Ended';
+
+                            upcomingMatch.appendChild(matchUp);
+                            upcomingMatch.appendChild(nextGame);
+                        }
+                        // end of next game info
+
                         for (let i = 0; i < team.length; i++) {
                             let innerDiv = document.createElement('div');
                             innerDiv.setAttribute('class', 'teamPlayers')
 
                             let photo = document.createElement('img');
                             photo.setAttribute('width', "100px");
-                            photo.src = team[i].player.photo;
+                            // photo.src = team[i].player.photo;
+                            photo.src = team[i].photo;
 
                             let playerName = document.createElement('h5');
                             playerName.setAttribute('class', 'center_text');
-                            const firstName = team[i].player.firstname;
-                            const lastName = team[i].player.lastname;
-                            playerName.textContent = `${firstName} ${lastName}`;
+                            // const firstName = team[i].player.firstname;
+                            // const lastName = team[i].player.lastname;
+                            // playerName.textContent = `${firstName} ${lastName}`;
+                            playerName.textContent = team[i].name;
 
                             let details = document.createElement('div');
                             details.setAttribute('class', 'details');
 
                             let playerAge = document.createElement('h5');
                             //playerAge.setAttribute('class')
-                            playerAge.textContent = `Age: ${team[i].player.age}`;
+                            // playerAge.textContent = `Age: ${team[i].player.age}`;
+                            playerAge.textContent = `Age: ${team[i].age}`;
 
                             let playerPosition = document.createElement('h5');
-                            playerPosition.textContent = team[i].statistics[0].games.position;
+                            // playerPosition.textContent = team[i].statistics[0].games.position;
+                            playerPosition.textContent = team[i].position;
 
                             // need to look for sidelined (sidelined by player id)
-                            let injured = document.createElement('h4');
-                            injured.textContent = 'INJURED'
-                            injured.value = team[i].player.injured;
-                            injured.setAttribute('class', 'injured');
-                            if (injured.value == false) {
-                                injured.setAttribute('class', 'hidden');
-                            }
+                            // let injured = document.createElement('h4');
+                            // injured.textContent = 'INJURED'
+                            // injured.value = team[i].player.injured;
+                            // injured.setAttribute('class', 'injured');
+                            // if (injured.value == false) {
+                            //     injured.setAttribute('class', 'hidden');
+                            // }
 
-
+                            // find captain (statistics/captain)
                             let a = document.createElement('a');
-                            a.id = team[i].player.id;
+                            a.id = team[i].id;
                             a.href = '#'; //come back and set
                             //a.setAttribute()
 
@@ -412,10 +475,11 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                             a.appendChild(playerName);
                             details.appendChild(playerAge);
                             details.appendChild(playerPosition);
-                            details.appendChild(injured);
+                            // details.appendChild(injured);
                             a.appendChild(details);
                             innerDiv.appendChild(a);
                             outerDiv.appendChild(innerDiv);
+                            displayPlayers.appendChild(upcomingMatch)
                             displayPlayers.appendChild(outerDiv);
 
                         }
@@ -563,20 +627,6 @@ export function setAsFavorite(event, id, href) {
                         upcoming.appendChild(nextGame);
                     }
 
-                    // fixtures.appendChild(wins);
-                    // fixtures.appendChild(losses);
-                    // fixtures.appendChild(draws);
-                    // cards.appendChild(redCards);
-                    // cards.appendChild(yellowCards);
-                    // match.appendChild(homeFlag);
-                    // match.appendChild(vs);
-                    // match.appendChild(oppFlag);
-                    // upcoming.appendChild(match);
-                    // upcoming.appendChild(nextGame);
-                    // upcoming.appendChild(location);
-
-                    // addFavoriteTeam(displayFavoriteTeam.innerHTML);
-
                     left.appendChild(season);
                     left.appendChild(fixtures);
                     left.appendChild(cards);
@@ -665,6 +715,51 @@ function prettyDate(findGame) {
     }
 }
 
+async function findHomeFlag(id) {
+    const url = `${baseURL}fixtures?season=2021&team=${id}`;
+    return fetch(url, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+            }
+        })
+        .then(
+            async function (response) {
+                if (response.status !== 200) {
+                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+
+                return response.json().then(function (data) {
+                    const games = data.response[0].teams;
+
+                    if (games.away.id == id) {
+                        return games.away.logo;
+                    } else if (games.home.id == id) {
+                        return games.home.logo;
+                    }
+
+                    // for (let game of games) {
+                    //     const gameDate = game.fixture.date
+                    //     const gameDateFormatted = JSON.stringify(new Date(gameDate));
+                    //     // const gameDateStr = gameDateFormatted.toString();
+                    //     if (gameDateFormatted == gameToFind) {
+                    //         const oppTeam = game.teams;
+                    //         if (oppTeam.away.id == id) {
+                    //             return oppTeam.away.logo;
+                    //         } else if (oppTeam.home.id == id) {
+                    //             return oppTeam.home.logo;
+                    //         }
+                    //     }
+                    // }
+                })
+            })
+        .catch(err => {
+            console.error('Fetch Error - ', err);
+        });
+}
+
 async function findOppFlag(id, findGame) {
     if (findGame == undefined) {
         return null;
@@ -747,3 +842,6 @@ async function findGameLocation(id, findGame) {
             console.error('Fetch Error - ', err);
         });
 }
+
+//search player
+//search team
