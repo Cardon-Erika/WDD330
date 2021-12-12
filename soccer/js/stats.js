@@ -62,12 +62,17 @@ export function showLeaguesByCountry() {
 
                 // Examine the text in the response
                 response.json().then(function (data) {
+                    const buildNav = document.getElementById('navBar');
+                    buildNav.innerHTML = '';
+
                     const displayLeagues = document.getElementById('showLeagues');
                     displayLeagues.innerHTML = '';
                     const displayTeamsById = document.getElementById('showTeams');
                     displayTeamsById.innerHTML = '';
                     const displayPlayers = document.getElementById('showPlayers');
                     displayPlayers.innerHTML = '';
+                    const displayIndPlayer = document.getElementById('showIndPlayer');
+                    displayIndPlayer.innerHTML = '';
 
                     const country = document.createElement('h1');
                     country.textContent = document.getElementById('countries').value;
@@ -96,13 +101,15 @@ export function showLeaguesByCountry() {
 
                             let leagueId = leagues[i].league.id;
 
+
                             let a = document.createElement('a');
                             a.id = leagues[i].league.id;
                             // **********COME BACK AND MAKE DATE DYNAMIC*************
                             a.href = `${baseURL}standings?season=${2021}&league=${a.id}`
                             // a.setAttribute('onclick', `showTeamsInLeague(event, id, href, ${leagueId})`)
                             // lets module run
-                            a.addEventListener('click', (event) => showTeamsInLeague(event, a.id, a.href, leagueId));
+
+                            a.addEventListener('click', (event) => showTeamsInLeague(event, a.href, leagueId));
                             // change team pull to teams/team information
 
                             let logo = document.createElement('img');
@@ -149,12 +156,12 @@ export function showLeaguesByCountry() {
         });
 }
 
-export function showTeamsInLeague(event, id, href, leagueId) {
+export function showTeamsInLeague(event, leagueHref, leagueId) {
     event.preventDefault();
 
     // let leagueId = leagueId
 
-    const url = href;
+    const url = leagueHref;
     fetch(url, {
             "method": "GET",
             "headers": {
@@ -177,6 +184,8 @@ export function showTeamsInLeague(event, id, href, leagueId) {
                     displayTeamsById.innerHTML = '';
                     const displayPlayers = document.getElementById('showPlayers');
                     displayPlayers.innerHTML = '';
+                    const displayIndPlayer = document.getElementById('showIndPlayer');
+                    displayIndPlayer.innerHTML = '';
 
                     const league = document.createElement('h1');
                     // league.textContent = document.getElementById(id).h4.value;
@@ -185,6 +194,22 @@ export function showTeamsInLeague(event, id, href, leagueId) {
                     league.textContent = `${countryName} - ${leagueName}`
                     league.setAttribute('class', 'center_text');
                     displayTeamsById.appendChild(league);
+
+                    const buildNav = document.getElementById('navBar');
+                    buildNav.innerHTML = '';
+
+                    const ul = document.createElement('ul');
+                    const li1 = document.createElement('li');
+
+                    // // country
+                    const a1 = document.createElement('a');
+                    a1.textContent = countryName;
+                    // a.href = oldHref;
+                    a1.addEventListener('click', () => showLeaguesByCountry())
+
+                    li1.appendChild(a1);
+                    ul.appendChild(li1);
+                    buildNav.appendChild(ul);
 
                     // const leagueId = data.response[0].league.id;
 
@@ -277,9 +302,8 @@ export function showTeamsInLeague(event, id, href, leagueId) {
 
                             // try pull with players squad
                             a.href = `${baseURL}players/squads?team=${a.id}`
-
                             a.value = `${countryName} - ${leagueName} - ${team}`
-                            a.addEventListener('click', (event) => showTeamInfo(event, teamId, a.href, a.value, leagueId))
+                            a.addEventListener('click', (event) => showTeamInfo(event, teamId, a.href, a.value, leagueId, leagueHref))
 
                             a.appendChild(logo);
                             a.appendChild(teamName);
@@ -301,7 +325,7 @@ export function showTeamsInLeague(event, id, href, leagueId) {
         });
 }
 
-export function showTeamInfo(event, teamId, href, team, leagueId) {
+export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
     // add in team information (teams informations)
     event.preventDefault();
 
@@ -325,6 +349,34 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                 }
 
                 response.json().then(async function (data) {
+                    const buildNav = document.getElementById('navBar');
+                    buildNav.innerHTML = '';
+
+                    const countryNameForNav = team.substring(0, team.indexOf('-'));
+                    const leagueNameForNav = team.substring(team.indexOf('-') + 1, team.lastIndexOf('-'));
+
+                    const ul = document.createElement('ul');
+                    const li1 = document.createElement('li');
+                    const li2 = document.createElement('li');
+
+
+                    // // country
+                    const a1 = document.createElement('a');
+                    a1.textContent = countryNameForNav;
+                    // a.href = oldHref;
+                    a1.addEventListener('click', (event) => showLeaguesByCountry(event))
+
+                    // league
+                    const a2 = document.createElement('a');
+                    a2.textContent = leagueNameForNav;
+                    // a.href = oldHref;
+                    a2.addEventListener('click', (event) => showTeamsInLeague(event, leagueHref, leagueId))
+
+                    li1.appendChild(a1);
+                    li2.appendChild(a2);
+                    ul.appendChild(li1);
+                    ul.appendChild(li2);
+                    buildNav.appendChild(ul);
                     // not pulling in team name ****FIX***
 
                     if (data.response == '') {
@@ -334,6 +386,8 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                         displayTeamsById.innerHTML = '';
                         const displayPlayers = document.getElementById('showPlayers');
                         displayPlayers.innerHTML = '';
+                        const displayIndPlayer = document.getElementById('showIndPlayer');
+                        displayIndPlayer.innerHTML = '';
 
                         const teamName = document.createElement('h1');
                         teamName.textContent = listTeamName;
@@ -357,6 +411,8 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                         displayTeamsById.innerHTML = '';
                         const displayPlayers = document.getElementById('showPlayers');
                         displayPlayers.innerHTML = '';
+                        const displayIndPlayer = document.getElementById('showIndPlayer');
+                        displayIndPlayer.innerHTML = '';
 
                         const teamName = document.createElement('h1');
                         teamName.textContent = listTeamName;
@@ -468,8 +524,9 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                             // find captain (statistics/captain)
                             let a = document.createElement('a');
                             a.id = team[i].id;
-                            a.href = '#'; //come back and set
-                            //a.setAttribute()
+                            a.value = team[i].name; //Come back and change
+                            a.href = `${baseURL}players?id=${a.id}&season=2021`;
+                            a.addEventListener('click', (event) => showPlayerInfo(event, a.href, a.value, listTeamName, href, teamId, leagueId, leagueHref));
 
                             a.appendChild(photo);
                             a.appendChild(playerName);
@@ -483,6 +540,221 @@ export function showTeamInfo(event, teamId, href, team, leagueId) {
                             displayPlayers.appendChild(outerDiv);
 
                         }
+                    }
+                })
+            })
+        .catch(err => {
+            console.error('Fetch Error - ', err);
+        });
+}
+
+export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId, leagueId, leagueHref) {
+    event.preventDefault();
+
+    const listPlayerName = value;
+
+    const url = playerHref;
+    fetch(url, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
+            }
+        })
+        .then(
+            async function (response) {
+                if (response.status !== 200) {
+                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
+
+                response.json().then(function (data) {
+                    const buildNav = document.getElementById('navBar');
+                    buildNav.innerHTML = '';
+
+                    const countryNameForNav = team.substring(0, team.indexOf('-'));
+                    const leagueNameForNav = team.substring(team.indexOf('-') + 1, team.lastIndexOf('-'));
+                    const teamNameForNav = team.substring(team.lastIndexOf('-') + 2);
+                    const ul = document.createElement('ul');
+                    const li1 = document.createElement('li');
+                    const li2 = document.createElement('li');
+                    const li3 = document.createElement('li');
+
+                    // // country
+                    const a1 = document.createElement('a');
+                    a1.textContent = countryNameForNav;
+                    // a.href = oldHref;
+                    a1.addEventListener('click', (event) => showLeaguesByCountry(event))
+
+                    // league
+                    const a2 = document.createElement('a');
+                    a2.textContent = leagueNameForNav;
+                    // a.href = oldHref;
+                    a2.addEventListener('click', (event) => showTeamsInLeague(event, leagueHref, leagueId))
+
+                    // team
+                    const a3 = document.createElement('a');
+                    a3.textContent = teamNameForNav;
+                    // a.href = oldHref;
+                    a3.addEventListener('click', (event) => showTeamInfo(event, teamId, teamHref, team, leagueId))
+
+                    li1.appendChild(a1);
+                    li2.appendChild(a2);
+                    li3.appendChild(a3);
+                    ul.appendChild(li1);
+                    ul.appendChild(li2);
+                    ul.appendChild(li3)
+                    buildNav.appendChild(ul);
+
+                    if (data.response == '') {
+                        const displayLeagues = document.getElementById('showLeagues');
+                        displayLeagues.innerHTML = '';
+                        const displayTeamsById = document.getElementById('showTeams');
+                        displayTeamsById.innerHTML = '';
+                        const displayPlayers = document.getElementById('showPlayers');
+                        displayPlayers.innerHTML = '';
+                        const displayIndPlayer = document.getElementById('showIndPlayer');
+                        displayIndPlayer.innerHTML = '';
+
+                        const teamName = document.createElement('h1');
+                        teamName.textContent = team;
+                        teamName.setAttribute('class', 'center_text');
+
+                        let statement = document.createElement('h3');
+                        statement.setAttribute('class', 'center_text');
+                        statement.textContent = `We're sorry. There is no information for ${listPlayerName} currently.`
+
+                        displayIndPlayer.appendChild(teamName);
+                        displayIndPlayer.appendChild(statement);
+
+                    } else {
+                        const playerInfo = data.response[0];
+
+                        const displayLeagues = document.getElementById('showLeagues');
+                        displayLeagues.innerHTML = '';
+                        const displayTeamsById = document.getElementById('showTeams');
+                        displayTeamsById.innerHTML = '';
+                        const displayPlayers = document.getElementById('showPlayers');
+                        displayPlayers.innerHTML = '';
+                        const displayIndPlayer = document.getElementById('showIndPlayer');
+                        displayIndPlayer.innerHTML = '';
+
+                        const teamName = document.createElement('h1');
+                        teamName.textContent = team;
+                        teamName.setAttribute('class', 'center_text');
+                        displayIndPlayer.appendChild(teamName);
+
+                        const outerDiv = document.createElement('div');
+                        outerDiv.id = 'player_info';
+
+                        const innerDiv1 = document.createElement('div');
+
+                        const playerPhoto = document.createElement('img');
+                        playerPhoto.setAttribute('width', '300px');
+                        playerPhoto.src = playerInfo.player.photo;
+
+                        innerDiv1.appendChild(playerPhoto);
+                        innerDiv1.id = 'image_border';
+
+                        const innerDiv2 = document.createElement('div');
+
+                        const innerDiv3 = document.createElement('div');
+                        innerDiv3.id = 'innerDiv3';
+
+                        //start innerDiv2
+                        const playerName = document.createElement('h3');
+                        const first = playerInfo.player.firstname;
+                        const last = playerInfo.player.lastname;
+                        playerName.textContent = `${first} ${last}`;
+                        playerName.setAttribute('class', 'strong');
+
+                        const playerDOB = document.createElement('h4');
+                        playerDOB.textContent = `Date of Birth: ${playerInfo.player.birth.date}`;
+
+                        const playerNationality = document.createElement('h4');
+                        playerNationality.textContent = `Nationality: ${playerInfo.player.nationality}`;
+                        //end innerDiv2
+
+                        const playerStats = playerInfo.statistics;
+
+                        for (let i = 0; i < playerStats.length; i++) {
+                            //start innerDiv3
+                            const playerTeam = document.createElement('h4');
+                            playerTeam.textContent = `Team: ${playerStats[i].team.name}`;
+
+                            const playerLeague = document.createElement('h4');
+                            playerLeague.textContent = `League: ${playerStats[i].league.name}`;
+
+                            const playerPosition = document.createElement('h4');
+                            playerPosition.textContent = `Position: ${playerStats[i].games.position}`;
+
+                            const playerApp = document.createElement('h4');
+                            playerApp.textContent = `Appearances: ${playerStats[i].games.appearences}`;
+
+                            innerDiv3.appendChild(playerTeam);
+                            innerDiv3.appendChild(playerLeague);
+                            innerDiv3.appendChild(playerPosition);
+                            innerDiv3.appendChild(playerApp);
+
+                            if (playerStats[i].games.position == 'Midfielder') {
+
+                            } else if (playerStats[i].games.position == 'Defender') {
+
+                            } else if (playerStats[i].games.position == 'Goalkeeper') {
+
+                            } else if (playerStats[i].games.position == 'Attacker') {
+                                const totalDuels = document.createElement('h4');
+                                totalDuels.textContent = `Total Duels: ${playerStats[i].duels.total}`;
+
+                                const wonDuels = document.createElement('h4');
+                                wonDuels.textContent = `Dules Won: ${playerStats[i].duels.won}`;
+
+                                const totalShots = document.createElement('h4');
+                                totalShots.textContent = `Total Shots: ${playerStats[i].shots.total}`;
+
+                                const onShots = document.createElement('h4');
+                                onShots.textContent = `Shots on Goal: ${playerStats[i].shots.on}`;
+
+                                const goalAssists = document.createElement('h4');
+                                goalAssists.textContent = `Assists: ${playerStats[i].goals.assists}`;
+
+                                const totalGoals = document.createElement('h4');
+                                totalGoals.textContent = `Goals: ${playerStats[i].goals.total}`;
+
+                                const totalYellow = document.createElement('h4');
+                                totalYellow.textContent = `Yellow Cards: ${playerStats[i].cards.yellow}`;
+
+                                const totalRed = document.createElement('h4');
+                                totalRed.textContent = `Red Cards: ${playerStats[i].cards.red}`;
+
+                                innerDiv3.appendChild(totalDuels);
+                                innerDiv3.appendChild(wonDuels);
+                                innerDiv3.appendChild(totalShots);
+                                innerDiv3.appendChild(onShots);
+                                innerDiv3.appendChild(goalAssists);
+                                innerDiv3.appendChild(totalGoals);
+                                innerDiv3.appendChild(totalYellow);
+                                innerDiv3.appendChild(totalRed);
+
+                            } else {
+
+                            }
+                            //end innerDiv3
+                        }
+                        // add stats??
+                        // GK => clean sheets?
+                        // Striker => shots on goal?
+
+                        // add teams and leagues (cups/national) play on in current season
+
+                        innerDiv2.appendChild(playerName);
+                        innerDiv2.appendChild(playerDOB);
+                        innerDiv2.appendChild(playerNationality);
+                        outerDiv.appendChild(innerDiv1);
+                        outerDiv.appendChild(innerDiv2);
+                        outerDiv.appendChild(innerDiv3);
+                        displayIndPlayer.appendChild(outerDiv);
+
                     }
                 })
             })
@@ -586,16 +858,20 @@ export function setAsFavorite(event, id, href) {
                     }
                     yellowCards.textContent = `Yellow Cards: ${yellowCardTotal}`;
 
+                    const nextGameTitle = document.createElement('h4');
+                    nextGameTitle.textContent = "NEXT GAME";
+                    nextGameTitle.id = "next_game_title";
+
                     const homeFlag = document.createElement('img');
                     homeFlag.src = info.team.logo;
                     homeFlag.setAttribute('width', '75px');
-
 
                     fixtures.appendChild(wins);
                     fixtures.appendChild(losses);
                     fixtures.appendChild(draws);
                     cards.appendChild(redCards);
                     cards.appendChild(yellowCards);
+                    upcoming.appendChild(nextGameTitle);
                     match.appendChild(homeFlag);
 
                     const nextGame = document.createElement('h4');
@@ -739,20 +1015,6 @@ async function findHomeFlag(id) {
                     } else if (games.home.id == id) {
                         return games.home.logo;
                     }
-
-                    // for (let game of games) {
-                    //     const gameDate = game.fixture.date
-                    //     const gameDateFormatted = JSON.stringify(new Date(gameDate));
-                    //     // const gameDateStr = gameDateFormatted.toString();
-                    //     if (gameDateFormatted == gameToFind) {
-                    //         const oppTeam = game.teams;
-                    //         if (oppTeam.away.id == id) {
-                    //             return oppTeam.away.logo;
-                    //         } else if (oppTeam.home.id == id) {
-                    //             return oppTeam.home.logo;
-                    //         }
-                    //     }
-                    // }
                 })
             })
         .catch(err => {
