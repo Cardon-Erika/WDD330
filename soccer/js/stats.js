@@ -3,6 +3,7 @@ import {
 } from "./favorites.js";
 
 const baseURL = "https://api-football-v1.p.rapidapi.com/v3/"
+const spinner = document.getElementById("spinner");
 
 export function createListByCountry() {
     const countryDropdown = document.getElementById('countries');
@@ -43,6 +44,7 @@ export function createListByCountry() {
 }
 
 export function showLeaguesByCountry() {
+    spinner.removeAttribute('hidden');
     const selectedCountry = document.getElementById('countries').value;
 
     const url = baseURL + "leagues";
@@ -146,6 +148,8 @@ export function showLeaguesByCountry() {
                                 displayLeagues.appendChild(cupTitle);
                             }
                             displayLeagues.appendChild(displayCups);
+
+                            spinner.setAttribute('hidden', '');
                         }
                     }
                 });
@@ -158,6 +162,7 @@ export function showLeaguesByCountry() {
 
 export function showTeamsInLeague(event, leagueHref, leagueId) {
     event.preventDefault();
+    spinner.removeAttribute('hidden');
 
     // let leagueId = leagueId
 
@@ -316,6 +321,8 @@ export function showTeamsInLeague(event, leagueHref, leagueId) {
                         displayConference.appendChild(standingsTable);
                         displayConference.appendChild(displayTeams);
                         displayTeamsById.appendChild(displayConference);
+
+                        spinner.setAttribute('hidden', '');
                     }
                 });
             }
@@ -328,6 +335,7 @@ export function showTeamsInLeague(event, leagueHref, leagueId) {
 export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
     // add in team information (teams informations)
     event.preventDefault();
+    spinner.removeAttribute('hidden');
 
     // let leagueId = leagueId;
 
@@ -399,11 +407,13 @@ export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
 
                         displayPlayers.appendChild(teamName);
                         displayPlayers.appendChild(statement);
+
+                        spinner.setAttribute('hidden', '');
                     } else {
                         // change info pull to player squads ??
                         // current info pull is fine, need to pull from all info pages...
                         // const team = data.response;
-                        const team = data.response[0].players;
+                        const teamInfo = data.response[0].players;
 
                         const displayLeagues = document.getElementById('showLeagues');
                         displayLeagues.innerHTML = '';
@@ -426,7 +436,7 @@ export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
                         // favoriteBtn.setAttribute('onclick', `setAsFavorite(event, ${teamId}, href)`);
                         const displayFavoriteTeam = document.getElementById('displayFavorite');
                         favoriteBtn.addEventListener('click', (event) => {
-                            setAsFavorite(event, teamId, favoriteBtn.href);
+                            setAsFavorite(event, teamId, href, listTeamName, leagueId, leagueHref, favoriteBtn.href);
                             // addFavoriteTeam(displayFavoriteTeam.innerHTML);
                         });
 
@@ -491,14 +501,11 @@ export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
                             let photo = document.createElement('img');
                             photo.setAttribute('width', "100px");
                             // photo.src = team[i].player.photo;
-                            photo.src = team[i].photo;
+                            photo.src = teamInfo[i].photo;
 
                             let playerName = document.createElement('h5');
                             playerName.setAttribute('class', 'center_text');
-                            // const firstName = team[i].player.firstname;
-                            // const lastName = team[i].player.lastname;
-                            // playerName.textContent = `${firstName} ${lastName}`;
-                            playerName.textContent = team[i].name;
+                            playerName.textContent = teamInfo[i].name;
 
                             let details = document.createElement('div');
                             details.setAttribute('class', 'details');
@@ -506,11 +513,11 @@ export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
                             let playerAge = document.createElement('h5');
                             //playerAge.setAttribute('class')
                             // playerAge.textContent = `Age: ${team[i].player.age}`;
-                            playerAge.textContent = `Age: ${team[i].age}`;
+                            playerAge.textContent = `Age: ${teamInfo[i].age}`;
 
                             let playerPosition = document.createElement('h5');
                             // playerPosition.textContent = team[i].statistics[0].games.position;
-                            playerPosition.textContent = team[i].position;
+                            playerPosition.textContent = teamInfo[i].position;
 
                             // need to look for sidelined (sidelined by player id)
                             // let injured = document.createElement('h4');
@@ -523,8 +530,8 @@ export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
 
                             // find captain (statistics/captain)
                             let a = document.createElement('a');
-                            a.id = team[i].id;
-                            a.value = team[i].name; //Come back and change
+                            a.id = teamInfo[i].id;
+                            a.value = teamInfo[i].name; //Come back and change
                             a.href = `${baseURL}players?id=${a.id}&season=2021`;
                             a.addEventListener('click', (event) => showPlayerInfo(event, a.href, a.value, listTeamName, href, teamId, leagueId, leagueHref));
 
@@ -539,6 +546,7 @@ export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
                             displayPlayers.appendChild(upcomingMatch)
                             displayPlayers.appendChild(outerDiv);
 
+                            spinner.setAttribute('hidden', '');
                         }
                     }
                 })
@@ -550,6 +558,7 @@ export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
 
 export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId, leagueId, leagueHref) {
     event.preventDefault();
+    spinner.removeAttribute('hidden');
 
     const listPlayerName = value;
 
@@ -627,6 +636,7 @@ export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId,
                         displayIndPlayer.appendChild(teamName);
                         displayIndPlayer.appendChild(statement);
 
+                        spinner.setAttribute('hidden', '');
                     } else {
                         const playerInfo = data.response[0];
 
@@ -657,9 +667,7 @@ export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId,
                         innerDiv1.id = 'image_border';
 
                         const innerDiv2 = document.createElement('div');
-
-                        const innerDiv3 = document.createElement('div');
-                        innerDiv3.id = 'innerDiv3';
+                        innerDiv2.id = 'innerDiv2';
 
                         //start innerDiv2
                         const playerName = document.createElement('h3');
@@ -673,69 +681,477 @@ export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId,
 
                         const playerNationality = document.createElement('h4');
                         playerNationality.textContent = `Nationality: ${playerInfo.player.nationality}`;
+
+                        const playerPosition = document.createElement('h4');
+                        playerPosition.textContent = `Position: ${playerInfo.statistics[0].games.position}`;
                         //end innerDiv2
+
+                        // const innerDiv3 = document.createElement('div');
+                        // innerDiv3.id = 'innerDiv3';
+
 
                         const playerStats = playerInfo.statistics;
 
                         for (let i = 0; i < playerStats.length; i++) {
                             //start innerDiv3
+                            const innerDiv4 = document.createElement('div');
+                            innerDiv4.setAttribute('class', 'innerDiv4');
+
+                            const teamDiv = document.createElement('div');
+                            teamDiv.id = 'teamDiv';
+
+                            // chang team name to 'team - league'
+                            const teamTitle = document.createElement('h5');
+                            teamTitle.textContent = "TEAM";
+                            teamTitle.id = "teamTitle";
+
+                            const playerTeamName = playerStats[i].team.name;
+                            const playerLeagueName = playerStats[i].league.name;
+
                             const playerTeam = document.createElement('h4');
-                            playerTeam.textContent = `Team: ${playerStats[i].team.name}`;
+                            // playerTeam.textContent = `Team: ${playerStats[i].team.name}`;
+                            playerTeam.textContent = `${playerTeamName} - ${playerLeagueName}`;
+                            playerTeam.setAttribute('class', 'strong');
 
-                            const playerLeague = document.createElement('h4');
-                            playerLeague.textContent = `League: ${playerStats[i].league.name}`;
+                            // const playerLeague = document.createElement('h4');
+                            // playerLeague.textContent = `League: ${playerStats[i].league.name}`;
 
-                            const playerPosition = document.createElement('h4');
-                            playerPosition.textContent = `Position: ${playerStats[i].games.position}`;
+                            // const playerPos = `Position: ${playerStats[i].games.position}`;
+                            let playerAppear = '';
+                            if (playerStats[i].games.appearences == null) {
+                                playerAppear = `Appearances: 0`;
+                            } else {
+                                playerAppear = `Appearances: ${playerStats[i].games.appearences}`;
+                            }
+
+                            let PlayerMinutes = '';
+                            if (playerStats[i].games.minutes == null) {
+                                PlayerMinutes = `Minutes Played: 0`;
+                            } else {
+                                PlayerMinutes = `Minutes Played: ${playerStats[i].games.minutes}`;
+                            }
 
                             const playerApp = document.createElement('h4');
-                            playerApp.textContent = `Appearances: ${playerStats[i].games.appearences}`;
+                            // playerPosition.textContent = `Position: ${playerStats[i].games.position}`;
+                            playerApp.textContent = `${playerAppear} | ${PlayerMinutes}`;
 
-                            innerDiv3.appendChild(playerTeam);
-                            innerDiv3.appendChild(playerLeague);
-                            innerDiv3.appendChild(playerPosition);
-                            innerDiv3.appendChild(playerApp);
+                            // const playerApp = document.createElement('h4');
+                            // playerApp.textContent = `Appearances: ${playerStats[i].games.appearences}`;
 
-                            if (playerStats[i].games.position == 'Midfielder') {
+                            teamDiv.appendChild(teamTitle);
+                            teamDiv.appendChild(playerTeam);
+                            // teamDiv.appendChild(playerLeague);
+                            // teamDiv.appendChild(playerPosition);
+                            teamDiv.appendChild(playerApp);
+                            innerDiv4.appendChild(teamDiv);
 
-                            } else if (playerStats[i].games.position == 'Defender') {
+                            if (playerStats[i].games.position == 'Midfielder' || playerStats[i].games.position == 'Defender') {
+                                const duelsDiv = document.createElement('div');
+                                duelsDiv.id = 'duelsDiv';
 
-                            } else if (playerStats[i].games.position == 'Goalkeeper') {
+                                const duelsTitle = document.createElement('h5');
+                                duelsTitle.textContent = "DUELS";
+                                duelsTitle.id = "duelsTitle";
 
-                            } else if (playerStats[i].games.position == 'Attacker') {
                                 const totalDuels = document.createElement('h4');
-                                totalDuels.textContent = `Total Duels: ${playerStats[i].duels.total}`;
+                                if (playerStats[i].duels.total == null) {
+                                    totalDuels.textContent = `Total: 0`;
+                                } else {
+                                    totalDuels.textContent = `Total: ${playerStats[i].duels.total}`;
+                                }
 
                                 const wonDuels = document.createElement('h4');
-                                wonDuels.textContent = `Dules Won: ${playerStats[i].duels.won}`;
+                                if (playerStats[i].duels.won == null) {
+                                    wonDuels.textContent = `Won: 0`;
+                                } else {
+                                    wonDuels.textContent = `Won: ${playerStats[i].duels.won}`;
+                                }
 
-                                const totalShots = document.createElement('h4');
-                                totalShots.textContent = `Total Shots: ${playerStats[i].shots.total}`;
+                                const passesDiv = document.createElement('div');
+                                passesDiv.id = 'passesDiv';
 
-                                const onShots = document.createElement('h4');
-                                onShots.textContent = `Shots on Goal: ${playerStats[i].shots.on}`;
+                                const passesTitle = document.createElement('h5');
+                                passesTitle.textContent = "PASSES";
+                                passesTitle.id = "passesTitle";
 
-                                const goalAssists = document.createElement('h4');
-                                goalAssists.textContent = `Assists: ${playerStats[i].goals.assists}`;
+                                const keyPass = document.createElement('h4');
+                                if (playerStats[i].passes.key == null) {
+                                    keyPass.textContent = `Key: 0`;
+                                } else {
+                                    keyPass.textContent = `Key: ${playerStats[i].passes.key}`;
+                                }
 
-                                const totalGoals = document.createElement('h4');
-                                totalGoals.textContent = `Goals: ${playerStats[i].goals.total}`;
+                                const totalPass = document.createElement('h4');
+                                if (playerStats[i].passes.total == null) {
+                                    totalPass.textContent = `Total: 0`;
+                                } else {
+                                    totalPass.textContent = `Total: ${playerStats[i].passes.total}`;
+                                }
+
+                                const foulsDiv = document.createElement('div');
+                                foulsDiv.id = 'foulsDiv';
+
+                                const foulsTitle = document.createElement('h5');
+                                foulsTitle.textContent = "FOULS";
+                                foulsTitle.id = "foulsTitle";
+
+                                const foulsCommitted = document.createElement('h4');
+                                if (playerStats[i].fouls.committed == null) {
+                                    foulsCommitted.textContent = `Committed: 0`;
+                                } else {
+                                    foulsCommitted.textContent = `Committed: ${playerStats[i].fouls.committed}`
+                                }
+
+                                const foulsDrawn = document.createElement('h4');
+                                if (playerStats[i].fouls.drawn == null) {
+                                    foulsDrawn.textContent = `Drawn: 0`;
+                                } else {
+                                    foulsDrawn.textContent = `Drawn: ${playerStats[i].fouls.drawn}`
+                                }
+
+                                const tackleDiv = document.createElement('div');
+                                tackleDiv.id = 'tackleDiv';
+
+                                const tackleTitle = document.createElement('h5');
+                                tackleTitle.textContent = "TACKLES";
+                                tackleTitle.id = "tackleTitle";
+
+                                const interception = document.createElement('h4');
+                                if (playerStats[i].tackles.interceptions == null) {
+                                    interception.textContent = `Interceptions: 0`;
+                                } else {
+                                    interception.textContent = `Interceptions: ${playerStats[i].tackles.interceptions}`;
+                                }
+
+                                const totalInt = document.createElement('h4');
+                                if (playerStats[i].tackles.total == null) {
+                                    totalInt.textContent = `Total: 0`;
+                                } else {
+                                    totalInt.textContent = `Total: ${playerStats[i].tackles.total}`;
+                                }
+
+                                const cardsDiv = document.createElement('div');
+                                cardsDiv.id = 'cardsDiv';
+
+                                const cardsTitle = document.createElement('h5');
+                                cardsTitle.textContent = "CARDS";
+                                cardsTitle.id = "cardsTitle";
 
                                 const totalYellow = document.createElement('h4');
-                                totalYellow.textContent = `Yellow Cards: ${playerStats[i].cards.yellow}`;
+                                if (playerStats[i].cards.yellow == null) {
+                                    totalYellow.textContent = `Yellow: 0`;
+                                } else {
+                                    totalYellow.textContent = `Yellow: ${playerStats[i].cards.yellow}`;
+                                }
 
                                 const totalRed = document.createElement('h4');
-                                totalRed.textContent = `Red Cards: ${playerStats[i].cards.red}`;
+                                if (playerStats[i].cards.red == null) {
+                                    totalRed.textContent = `Red: 0`;
+                                } else {
+                                    totalRed.textContent = `Red: ${playerStats[i].cards.red}`;
+                                }
 
-                                innerDiv3.appendChild(totalDuels);
-                                innerDiv3.appendChild(wonDuels);
-                                innerDiv3.appendChild(totalShots);
-                                innerDiv3.appendChild(onShots);
-                                innerDiv3.appendChild(goalAssists);
-                                innerDiv3.appendChild(totalGoals);
-                                innerDiv3.appendChild(totalYellow);
-                                innerDiv3.appendChild(totalRed);
+                                const penaltyDiv = document.createElement('div');
+                                penaltyDiv.id = 'penaltyDiv';
 
+                                const penaltyTitle = document.createElement('h5');
+                                penaltyTitle.textContent = "PENALTIES";
+                                penaltyTitle.id = 'penaltyTitle';
+
+                                const penaltyCom = document.createElement('h4');
+                                if (playerStats[i].penalty.commited == null) {
+                                    penaltyCom.textContent = `Committed: 0`;
+                                } else {
+                                    penaltyCom.textContent = `Committed: ${playerStats[i].penalty.commited}`;
+                                }
+
+                                const penaltyWon = document.createElement('h4');
+                                if (playerStats[i].penalty.won == null) {
+                                    penaltyWon.textContent = `Won: 0`;
+                                } else {
+                                    penaltyWon.textContent = `Won: ${playerStats[i].penalty.won}`;
+                                }
+
+                                const hr = document.createElement('hr');
+                                hr.setAttribute('width', '100%');
+
+                                duelsDiv.appendChild(duelsTitle);
+                                duelsDiv.appendChild(totalDuels);
+                                duelsDiv.appendChild(wonDuels);
+
+                                passesDiv.appendChild(passesTitle);
+                                passesDiv.appendChild(keyPass);
+                                passesDiv.appendChild(totalPass);
+
+                                foulsDiv.appendChild(foulsTitle);
+                                foulsDiv.appendChild(foulsCommitted);
+                                foulsDiv.appendChild(foulsDrawn);
+
+                                tackleDiv.appendChild(tackleTitle);
+                                tackleDiv.appendChild(interception);
+                                tackleDiv.appendChild(totalInt);
+
+                                cardsDiv.appendChild(cardsTitle);
+                                cardsDiv.appendChild(totalYellow);
+                                cardsDiv.appendChild(totalRed);
+
+                                penaltyDiv.appendChild(penaltyTitle);
+                                penaltyDiv.appendChild(penaltyCom);
+                                penaltyDiv.appendChild(penaltyWon);
+
+                                innerDiv4.appendChild(duelsDiv);
+                                innerDiv4.appendChild(passesDiv);
+                                innerDiv4.appendChild(foulsDiv);
+                                innerDiv4.appendChild(tackleDiv);
+                                innerDiv4.appendChild(cardsDiv);
+                                innerDiv4.appendChild(penaltyDiv);
+                                innerDiv4.appendChild(hr);
+                                outerDiv.appendChild(innerDiv4);
+                            } else if (playerStats[i].games.position == 'Goalkeeper') {
+                                const goalsDiv = document.createElement('div');
+                                goalsDiv.id = 'goalsDiv';
+
+                                const goalsTitle = document.createElement('h5');
+                                goalsTitle.textContent = "GOALS";
+                                goalsTitle.id = "goalsTitle";
+
+                                const goalsConceded = document.createElement('h4');
+                                if (playerStats[i].goals.conceded == null) {
+                                    goalsConceded.textContent = `Conceded: 0`;
+                                } else {
+                                    goalsConceded.textContent = `Conceded: ${playerStats[i].goals.conceded}`;
+                                }
+
+                                const goalsSaved = document.createElement('h4');
+                                if (playerStats[i].goals.saved == null) {
+                                    goalsSaved.textContent = `Saved: 0`;
+                                } else {
+                                    goalsSaved.textContent = `Saved: ${playerStats[i].goals.saved}`;
+                                }
+
+                                const cardsDiv = document.createElement('div');
+                                cardsDiv.id = 'cardsDiv';
+
+                                const cardsTitle = document.createElement('h5');
+                                cardsTitle.textContent = "CARDS";
+                                cardsTitle.id = "cardsTitle";
+
+                                const totalYellow = document.createElement('h4');
+                                if (playerStats[i].cards.yellow == null) {
+                                    totalYellow.textContent = `Yellow: 0`;
+                                } else {
+                                    totalYellow.textContent = `Yellow: ${playerStats[i].cards.yellow}`;
+                                }
+
+                                const totalRed = document.createElement('h4');
+                                if (playerStats[i].cards.red == null) {
+                                    totalRed.textContent = `Red: 0`;
+                                } else {
+                                    totalRed.textContent = `Red: ${playerStats[i].cards.red}`;
+                                }
+                                const penaltyDiv = document.createElement('div');
+                                penaltyDiv.id = 'penaltyDiv';
+
+                                const penaltyTitle = document.createElement('h5');
+                                penaltyTitle.textContent = "PENALTYS";
+                                penaltyTitle.id = 'penaltyTitle';
+
+                                const penaltyCom = document.createElement('h4');
+                                if (playerStats[i].penalty.commited == null) {
+                                    penaltyCom.textContent = `Committed: 0`;
+                                } else {
+                                    penaltyCom.textContent = `Committed: ${playerStats[i].penalty.commited}`;
+                                }
+
+                                const penaltySaved = document.createElement('h4');
+                                if (playerStats[i].penalty.saved == null) {
+                                    penaltySaved.textContent = `Saved: 0`;
+                                } else {
+                                    penaltySaved.textContent = `Saved: ${playerStats[i].penalty.saved}`;
+                                }
+
+                                const hr = document.createElement('hr');
+                                hr.setAttribute('width', '100%');
+
+                                goalsDiv.appendChild(goalsTitle);
+                                goalsDiv.appendChild(goalsConceded);
+                                goalsDiv.appendChild(goalsSaved);
+
+                                cardsDiv.appendChild(cardsTitle);
+                                cardsDiv.appendChild(totalYellow);
+                                cardsDiv.appendChild(totalRed);
+
+                                penaltyDiv.appendChild(penaltyTitle);
+                                penaltyDiv.appendChild(penaltyCom);
+                                penaltyDiv.appendChild(penaltySaved);
+
+                                innerDiv4.appendChild(goalsDiv);
+                                innerDiv4.appendChild(cardsDiv);
+                                innerDiv4.appendChild(penaltyDiv);
+                                innerDiv4.appendChild(hr);
+                                outerDiv.appendChild(innerDiv4);
+                            } else if (playerStats[i].games.position == 'Attacker') {
+                                const duelsDiv = document.createElement('div');
+                                duelsDiv.id = 'duelsDiv';
+
+                                const duelsTitle = document.createElement('h5');
+                                duelsTitle.textContent = "DUELS";
+                                duelsTitle.id = "duelsTitle";
+
+                                const totalDuels = document.createElement('h4');
+                                if (playerStats[i].duels.total == null) {
+                                    totalDuels.textContent = `Total: 0`;
+                                } else {
+                                    totalDuels.textContent = `Total: ${playerStats[i].duels.total}`;
+                                }
+
+                                const wonDuels = document.createElement('h4');
+                                if (playerStats[i].duels.won == null) {
+                                    wonDuels.textContent = `Won: 0`;
+                                } else {
+                                    wonDuels.textContent = `Won: ${playerStats[i].duels.won}`;
+                                }
+
+                                const shotsDiv = document.createElement('div');
+                                shotsDiv.id = 'shotsDiv';
+
+                                const shotsTitle = document.createElement('h5');
+                                shotsTitle.textContent = "SHOTS";
+                                shotsTitle.id = "shotsTitle";
+
+                                const totalShots = document.createElement('h4');
+                                if (playerStats[i].shots.total == null) {
+                                    totalShots.textContent = `Total: 0`;
+                                } else {
+                                    totalShots.textContent = `Total: ${playerStats[i].shots.total}`;
+                                }
+
+                                const onShots = document.createElement('h4');
+                                if (playerStats[i].shots.on == null) {
+                                    onShots.textContent = `On Goal: 0`;
+                                } else {
+                                    onShots.textContent = `On Goal: ${playerStats[i].shots.on}`;
+                                }
+
+                                const foulsDiv = document.createElement('div');
+                                foulsDiv.id = 'foulsDiv';
+
+                                const foulsTitle = document.createElement('h5');
+                                foulsTitle.textContent = "FOULS";
+                                foulsTitle.id = "foulsTitle";
+
+                                const foulsCommitted = document.createElement('h4');
+                                if (playerStats[i].fouls.committed == null) {
+                                    foulsCommitted.textContent = `Committed: 0`;
+                                } else {
+                                    foulsCommitted.textContent = `Committed: ${playerStats[i].fouls.committed}`
+                                }
+
+                                const foulsDrawn = document.createElement('h4');
+                                if (playerStats[i].fouls.drawn == null) {
+                                    foulsDrawn.textContent = `Drawn: 0`;
+                                } else {
+                                    foulsDrawn.textContent = `Drawn: ${playerStats[i].fouls.drawn}`
+                                }
+
+                                const goalsDiv = document.createElement('div');
+                                goalsDiv.id = 'goalsDiv';
+
+                                const goalsTitle = document.createElement('h5');
+                                goalsTitle.textContent = "GOALS";
+                                goalsTitle.id = "goalsTitle";
+
+                                const goalAssists = document.createElement('h4');
+                                if (playerStats[i].goals.assists == null) {
+                                    goalAssists.textContent = `Assists: 0`;
+                                } else {
+                                    goalAssists.textContent = `Assists: ${playerStats[i].goals.assists}`;
+                                }
+
+                                const totalGoals = document.createElement('h4');
+                                if (playerStats[i].goals.total == null) {
+                                    totalGoals.textContent = `Goals: 0`;
+                                } else {
+                                    totalGoals.textContent = `Goals: ${playerStats[i].goals.total}`;
+                                }
+
+                                const cardsDiv = document.createElement('div');
+                                cardsDiv.id = 'cardsDiv';
+
+                                const cardsTitle = document.createElement('h5');
+                                cardsTitle.textContent = "CARDS";
+                                cardsTitle.id = "cardsTitle";
+
+                                const totalYellow = document.createElement('h4');
+                                if (playerStats[i].cards.yellow == null) {
+                                    totalYellow.textContent = `Yellow: 0`;
+                                } else {
+                                    totalYellow.textContent = `Yellow: ${playerStats[i].cards.yellow}`;
+                                }
+
+                                const totalRed = document.createElement('h4');
+                                if (playerStats[i].cards.red == null) {
+                                    totalRed.textContent = `Red: 0`;
+                                } else {
+                                    totalRed.textContent = `Red: ${playerStats[i].cards.red}`;
+                                }
+
+                                const penaltyDiv = document.createElement('div');
+                                penaltyDiv.id = 'penaltyDiv';
+
+                                const penaltyTitle = document.createElement('h5');
+                                penaltyTitle.textContent = "PENALTIES";
+                                penaltyTitle.id = 'penaltyTitle';
+
+                                const penaltyMissed = document.createElement('h4');
+                                if (playerStats[i].penalty.missed == null) {
+                                    penaltyMissed.textContent = `Missed: 0`;
+                                } else {
+                                    penaltyMissed.textContent = `Missed: ${playerStats[i].penalty.missed}`;
+                                }
+
+                                const penaltyScored = document.createElement('h4');
+                                if (playerStats[i].penalty.scored == null) {
+                                    penaltyScored.textContent = `Scored: 0`;
+                                } else {
+                                    penaltyScored.textContent = `Scored: ${playerStats[i].penalty.scored}`;
+                                }
+
+                                const hr = document.createElement('hr');
+                                hr.setAttribute('width', '100%');
+
+                                duelsDiv.appendChild(duelsTitle);
+                                duelsDiv.appendChild(totalDuels);
+                                duelsDiv.appendChild(wonDuels);
+
+                                shotsDiv.appendChild(shotsTitle);
+                                shotsDiv.appendChild(totalShots);
+                                shotsDiv.appendChild(onShots);
+
+                                foulsDiv.appendChild(foulsTitle);
+                                foulsDiv.appendChild(foulsCommitted);
+                                foulsDiv.appendChild(foulsDrawn);
+
+                                goalsDiv.appendChild(goalsTitle);
+                                goalsDiv.appendChild(goalAssists);
+                                goalsDiv.appendChild(totalGoals);
+
+                                cardsDiv.appendChild(cardsTitle);
+                                cardsDiv.appendChild(totalYellow);
+                                cardsDiv.appendChild(totalRed);
+
+                                penaltyDiv.appendChild(penaltyTitle);
+                                penaltyDiv.appendChild(penaltyMissed);
+                                penaltyDiv.appendChild(penaltyScored);
+
+                                innerDiv4.appendChild(duelsDiv);
+                                innerDiv4.appendChild(shotsDiv);
+                                innerDiv4.appendChild(foulsDiv);
+                                innerDiv4.appendChild(goalsDiv);
+                                innerDiv4.appendChild(cardsDiv);
+                                innerDiv4.appendChild(penaltyDiv);
+                                innerDiv4.appendChild(hr);
+                                outerDiv.appendChild(innerDiv4);
                             } else {
 
                             }
@@ -750,11 +1166,13 @@ export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId,
                         innerDiv2.appendChild(playerName);
                         innerDiv2.appendChild(playerDOB);
                         innerDiv2.appendChild(playerNationality);
+                        innerDiv2.appendChild(playerPosition)
                         outerDiv.appendChild(innerDiv1);
                         outerDiv.appendChild(innerDiv2);
-                        outerDiv.appendChild(innerDiv3);
+                        // outerDiv.appendChild(innerDiv4);
                         displayIndPlayer.appendChild(outerDiv);
 
+                        spinner.setAttribute('hidden', '');
                     }
                 })
             })
@@ -763,10 +1181,11 @@ export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId,
         });
 }
 
-export function setAsFavorite(event, id, href) {
+export function setAsFavorite(event, teamId, href, listTeamName, leagueId, leagueHref, favoriteBtnHref) {
     event.preventDefault();
+    spinner.removeAttribute('hidden');
 
-    const url = href;
+    const url = favoriteBtnHref;
     // const url = `${baseURL}teams/statistics?league=${a}$season=2021&team=${id}`;
     fetch(url, {
             "method": "GET",
@@ -862,6 +1281,12 @@ export function setAsFavorite(event, id, href) {
                     nextGameTitle.textContent = "NEXT GAME";
                     nextGameTitle.id = "next_game_title";
 
+                    const homeFlagLink = document.createElement('a');
+                    homeFlagLink.id = "homeFlagLink";
+                    //pull back in later once I can solve saving the variables to local storage
+                    // homeFlagLink.href = `${baseURL}players/squads?team=${teamId}`;
+                    // homeFlagLink.addEventListener('click', (event) => showTeamInfo(event, teamId, href, listTeamName, leagueId, leagueHref))
+
                     const homeFlag = document.createElement('img');
                     homeFlag.src = info.team.logo;
                     homeFlag.setAttribute('width', '75px');
@@ -872,10 +1297,11 @@ export function setAsFavorite(event, id, href) {
                     cards.appendChild(redCards);
                     cards.appendChild(yellowCards);
                     upcoming.appendChild(nextGameTitle);
-                    match.appendChild(homeFlag);
+                    homeFlagLink.appendChild(homeFlag);
+                    match.appendChild(homeFlagLink);
 
                     const nextGame = document.createElement('h4');
-                    const findGame = await findNextGame(id);
+                    const findGame = await findNextGame(teamId);
                     if (findGame != undefined) {
                         const prettyGame = prettyDate(findGame);
                         nextGame.textContent = prettyGame;
@@ -884,11 +1310,11 @@ export function setAsFavorite(event, id, href) {
                         vs.textContent = ' VS ';
 
                         const oppFlag = document.createElement('img');
-                        oppFlag.src = await findOppFlag(id, findGame);
+                        oppFlag.src = await findOppFlag(teamId, findGame);
                         oppFlag.setAttribute('width', '75px');
 
                         const location = document.createElement('h4');
-                        const findLocation = await findGameLocation(id, findGame);
+                        const findLocation = await findGameLocation(teamId, findGame);
                         location.textContent = findLocation;
 
                         match.appendChild(vs);
@@ -913,6 +1339,8 @@ export function setAsFavorite(event, id, href) {
                     displayFavoriteTeam.appendChild(div);
 
                     addFavoriteTeam(displayFavoriteTeam.innerHTML);
+            
+                    spinner.setAttribute('hidden', '');
                 })
             })
         .catch(err => {
