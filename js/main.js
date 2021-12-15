@@ -44,6 +44,10 @@ function showAllWeeks() {
         {
             label: "Week Eleven",
             url: "week11/index.html"
+        },
+        {
+            label: "Final Project",
+            url: "soccer/index.html"
         }
     ];
 
