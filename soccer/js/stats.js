@@ -2,6 +2,17 @@ import {
     addFavoriteTeam
 } from "./favorites.js";
 
+import {
+    prettyDate
+} from "./utilities.js";
+
+import {
+    findNextGame,
+    findHomeFlag,
+    findOppFlag,
+    findGameLocation
+} from "./find.js";
+
 const baseURL = "https://api-football-v1.p.rapidapi.com/v3/"
 const spinner = document.getElementById("spinner");
 
@@ -498,10 +509,10 @@ export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
                             let innerDiv = document.createElement('div');
                             innerDiv.setAttribute('class', 'teamPlayers')
 
-                            let photo = document.createElement('img');
-                            photo.setAttribute('width', "100px");
+                            let playerPhoto = document.createElement('img');
+                            playerPhoto.setAttribute('width', "100px");
                             // photo.src = team[i].player.photo;
-                            photo.src = teamInfo[i].photo;
+                            playerPhoto.src = teamInfo[i].photo;
 
                             let playerName = document.createElement('h5');
                             playerName.setAttribute('class', 'center_text');
@@ -535,7 +546,7 @@ export function showTeamInfo(event, teamId, href, team, leagueId, leagueHref) {
                             a.href = `${baseURL}players?id=${a.id}&season=2021`;
                             a.addEventListener('click', (event) => showPlayerInfo(event, a.href, a.value, listTeamName, href, teamId, leagueId, leagueHref));
 
-                            a.appendChild(photo);
+                            a.appendChild(playerPhoto);
                             a.appendChild(playerName);
                             details.appendChild(playerAge);
                             details.appendChild(playerPosition);
@@ -660,7 +671,7 @@ export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId,
                         const innerDiv1 = document.createElement('div');
 
                         const playerPhoto = document.createElement('img');
-                        playerPhoto.setAttribute('width', '300px');
+                        // playerPhoto.setAttribute('width', '300px');
                         playerPhoto.src = playerInfo.player.photo;
 
                         innerDiv1.appendChild(playerPhoto);
@@ -679,8 +690,8 @@ export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId,
                         const playerDOB = document.createElement('h4');
                         playerDOB.textContent = `Date of Birth: ${playerInfo.player.birth.date}`;
 
-                        const playerNationality = document.createElement('h4');
-                        playerNationality.textContent = `Nationality: ${playerInfo.player.nationality}`;
+                        const playerBirthCo = document.createElement('h4');
+                        playerBirthCo.textContent = `Birth Country: ${playerInfo.player.birth.country}`;
 
                         const playerPosition = document.createElement('h4');
                         playerPosition.textContent = `Position: ${playerInfo.statistics[0].games.position}`;
@@ -1165,7 +1176,7 @@ export function showPlayerInfo(event, playerHref, value, team, teamHref, teamId,
 
                         innerDiv2.appendChild(playerName);
                         innerDiv2.appendChild(playerDOB);
-                        innerDiv2.appendChild(playerNationality);
+                        innerDiv2.appendChild(playerBirthCo);
                         innerDiv2.appendChild(playerPosition)
                         outerDiv.appendChild(innerDiv1);
                         outerDiv.appendChild(innerDiv2);
@@ -1341,191 +1352,6 @@ export function setAsFavorite(event, teamId, href, listTeamName, leagueId, leagu
                     addFavoriteTeam(displayFavoriteTeam.innerHTML);
             
                     spinner.setAttribute('hidden', '');
-                })
-            })
-        .catch(err => {
-            console.error('Fetch Error - ', err);
-        });
-}
-
-async function findNextGame(id) {
-    const url = `${baseURL}fixtures?season=2021&team=${id}`;
-    return fetch(url, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
-            }
-        })
-        .then(
-            async function (response) {
-                if (response.status !== 200) {
-                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
-                    return;
-                }
-
-                return response.json().then(function (data) {
-                    // return data.response;
-                    const today = new Date();
-
-                    const games = data.response
-                    for (let game of games) {
-                        const gameDate = game.fixture.date
-                        const gameDateFormatted = new Date(gameDate);
-                        // const gameDateStr = gameDateFormatted.toString();
-                        if (gameDateFormatted >= today) {
-                            return gameDateFormatted;
-                        }
-                    }
-                })
-            })
-        .catch(err => {
-            console.error('Fetch Error - ', err);
-        });
-}
-
-function prettyDate(findGame) {
-    if (findGame == undefined) {
-        return null;
-    } else {
-        // const date = findGame;
-
-        const dayOfWeek = findGame.toLocaleString('default', {
-            weekday: 'short'
-        });
-        const month = findGame.toLocaleString('default', {
-            month: 'short'
-        });
-        const day = findGame.getDate();
-        let hours = findGame.getHours();
-        let minutes = findGame.getMinutes().toString();
-        let meridiem = " AM";
-        const timeZone = findGame.toLocaleDateString(undefined, {
-            day: '2-digit',
-            timeZoneName: 'short'
-        }).substring(4);
-
-        if (hours > 12) {
-            hours = hours - 12;
-            meridiem = " PM";
-        } else if (hours === 0) {
-            hours = 12;
-        }
-
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        return `${dayOfWeek} ${month} ${day} - ${hours}:${minutes} ${meridiem} ${timeZone}`;
-    }
-}
-
-async function findHomeFlag(id) {
-    const url = `${baseURL}fixtures?season=2021&team=${id}`;
-    return fetch(url, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
-            }
-        })
-        .then(
-            async function (response) {
-                if (response.status !== 200) {
-                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
-                    return;
-                }
-
-                return response.json().then(function (data) {
-                    const games = data.response[0].teams;
-
-                    if (games.away.id == id) {
-                        return games.away.logo;
-                    } else if (games.home.id == id) {
-                        return games.home.logo;
-                    }
-                })
-            })
-        .catch(err => {
-            console.error('Fetch Error - ', err);
-        });
-}
-
-async function findOppFlag(id, findGame) {
-    if (findGame == undefined) {
-        return null;
-    } else {
-        const url = `${baseURL}fixtures?season=2021&team=${id}`;
-        return fetch(url, {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-                    "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
-                }
-            })
-            .then(
-                async function (response) {
-                    if (response.status !== 200) {
-                        console.warn('Looks like there was a problem. Status Code: ' + response.status);
-                        return;
-                    }
-
-                    return response.json().then(function (data) {
-                        // return data.response;
-                        const gameToFind = JSON.stringify(findGame);
-
-                        const games = data.response
-
-                        for (let game of games) {
-                            const gameDate = game.fixture.date
-                            const gameDateFormatted = JSON.stringify(new Date(gameDate));
-                            // const gameDateStr = gameDateFormatted.toString();
-                            if (gameDateFormatted == gameToFind) {
-                                const oppTeam = game.teams;
-                                if (oppTeam.away.id != id) {
-                                    return oppTeam.away.logo;
-                                } else if (oppTeam.home.id != id) {
-                                    return oppTeam.home.logo;
-                                }
-                            }
-                        }
-                    })
-                })
-            .catch(err => {
-                console.error('Fetch Error - ', err);
-            });
-    }
-}
-
-async function findGameLocation(id, findGame) {
-    const url = `${baseURL}fixtures?season=2021&team=${id}`;
-    return fetch(url, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-                "x-rapidapi-key": "7b8d108b58msh68fc75178b98daap14d877jsn2de0168a9f7b"
-            }
-        })
-        .then(
-            async function (response) {
-                if (response.status !== 200) {
-                    console.warn('Looks like there was a problem. Status Code: ' + response.status);
-                    return;
-                }
-
-                return response.json().then(function (data) {
-                    // return data.response;
-                    const gameToFind = JSON.stringify(findGame);
-
-                    const games = data.response
-
-                    for (let game of games) {
-                        const gameDate = game.fixture.date
-                        const gameDateFormatted = JSON.stringify(new Date(gameDate));
-                        // const gameDateStr = gameDateFormatted.toString();
-                        if (gameDateFormatted == gameToFind) {
-                            return game.fixture.venue.name;
-                        }
-                    }
                 })
             })
         .catch(err => {
